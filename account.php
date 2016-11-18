@@ -21,8 +21,8 @@ if (isset($_GET["action"]) && $_GET["action"] == "login") {
         $userSvc = new UserService();
         $isValid = $userSvc->checkLogin($_POST["username"], $_POST["password"]);
         if ($isValid) {
-            $user = $userSvc->getUser($_POST["username"]);
-            $_SESSION["username"] = $user->getUsername();
+            
+            $_SESSION["username"] = $_POST["username"];
             header("location: bla.php");
             exit(0);
         }

@@ -5,9 +5,9 @@ namespace OWG\Weggeefwinkel\Business;
 use OWG\Weggeefwinkel\Data\UserDAO;
 class UserService {
 
-    public function checkLogin($gebruikersnaam, $wachtwoord) {
+    public function checkLogin($username, $password) {
         $userDao = new UserDAO();
-        $user = $userDao->getValidUser($gebruikersnaam, $wachtwoord);
+        $user = $userDao->getValidUser($username, $password);
         if(isset($user)){
             return true;
         }

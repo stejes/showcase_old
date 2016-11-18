@@ -8,8 +8,7 @@ use OWG\Weggeefwinkel\Entities\User;
 use PDO;
 class UserDAO {
      public function getValidUser($username, $password) {
-        $sql = "select username from gebruikers
-where username = :username and password = :password";
+        $sql = "select username from users where username = :username and password = :password";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':username' => $username, ':password' => $password));
