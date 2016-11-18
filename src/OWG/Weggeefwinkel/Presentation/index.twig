@@ -1,0 +1,27 @@
+{% extends "skeleton.twig" %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    <h1>Lijst</h1>
+    <p class="important">
+
+
+        {% for item in itemList %}
+        <div class="lastItems">
+            <h2>{{item.section}}</h2>
+            <h4>{{item.title}}</h4>
+
+            img: {{item.img}}
+            {{item.postcode}} {{ item.city}}
+
+            date: {{item.date}}
+        </div>
+
+
+
+
+    {% endfor %}
+</p>
+
+{% endblock %}
