@@ -11,13 +11,17 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="#">Start</a>
+                        <a href="index.php">Start</a>
                     </li>
                     <li>
                         <a href="#">Zoek</a>
                     </li>
                     <li>
+                        {% if username == "" %}
                         <a href="account.php">Login</a>
+                        {% else %}
+                            <a href="account.php?action=logout">Logout</a>
+                        {% endif %}
                     </li>
                 </ul>
             </nav>

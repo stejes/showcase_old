@@ -17,22 +17,30 @@ use OWG\Weggeefwinkel\Business\UserService;
 
 //print_r($itemList);
 if (isset($_GET["action"]) && $_GET["action"] == "login") {
+    print "in eerste if";
     if (isset($_POST["username"]) && isset($_POST["password"])) {
         $userSvc = new UserService();
         $isValid = $userSvc->checkLogin($_POST["username"], $_POST["password"]);
+        print "in tweede if";
+        print $isValid;
         if ($isValid) {
             
             $_SESSION["username"] = $_POST["username"];
-            header("location: bla.php");
+            header("location: account.php");
             exit(0);
         }
     }
 }
+
+if (isset($_GET["action"]) && $_GET["action"] == "logout"){
+    unset($_SESSION["username"]);
+}
+
 if (!isset($_SESSION["username"])) {
     $view = $twig->render("loginForm.twig");
     print($view);
 } else {
-    $view = $twig->render("account.twig", array());
+    $view = $twig->render("account.twig", array("username" => $_SESSION["username"]));
     print($view);
-    print "jeuj";
+    print "jeuj: " . $_SESSION["username"];
 }

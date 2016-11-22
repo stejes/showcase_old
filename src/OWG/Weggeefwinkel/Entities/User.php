@@ -1,6 +1,7 @@
 <?php
 
-/**
+namespace OWG\Weggeefwinkel\Entities;
+/*
  * Description of User
  *
  * @author steven.jespers
