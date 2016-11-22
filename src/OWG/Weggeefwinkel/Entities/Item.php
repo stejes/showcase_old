@@ -28,6 +28,8 @@ class Item {
         $this->city = $city;
     }
     
+   
+    
     function getTitle() {
         return $this->title;
     }

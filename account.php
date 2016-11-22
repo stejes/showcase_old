@@ -5,6 +5,8 @@ require_once 'bootstrap.php';
 
 use OWG\Weggeefwinkel\Business\UserService;
 use OWG\Weggeefwinkel\Business\CityService;
+use OWG\Weggeefwinkel\Business\ItemService;
+
 
 //$itemSvc = new ItemService();
 //$itemList = $itemSvc->getLastItems();
@@ -59,7 +61,9 @@ if (!isset($_SESSION["username"])) {
     $view = $twig->render("loginForm.twig", array("cityList"=>$cityList));
     print($view);
 } else {
-    $view = $twig->render("account.twig", array("username" => $_SESSION["username"]));
+    $itemSvc = new ItemService();
+    $itemList = $itemSvc->getByUser($_SESSION["username"]);
+    $view = $twig->render("account.twig", array("itemList"=>$itemList, "username" => $_SESSION["username"]));
     print($view);
     //print "jeuj: " . $_SESSION["username"];
 }

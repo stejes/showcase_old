@@ -12,6 +12,12 @@ class ItemService {
         $itemList = $itemDAO->getLast();
         return $itemList;
     }
+    
+    public function getByUser($username){
+        $itemDAO = new ItemDAO();
+        $itemList = $itemDAO->getByUser($username);
+        return $itemList;
+    }
 
     
 
