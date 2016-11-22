@@ -6,15 +6,14 @@ use OWG\Weggeefwinkel\Business\ItemService;
 
 $itemSvc = new ItemService();
 $itemList = $itemSvc->getLastItems();
-//$arr = (array)$item;
-/*if(empty($arr)){
-    print "jaja";
+
+
+if(isset($_SESSION["username"])){
+    $username = $_SESSION["username"];
 }
-print sizeof($arr);
-//print "<pre>" . $arr . "</pre>";
-print_r($arr);*/
+else{
+    $username="";
+}
 
-//print_r($itemList);
-
-$view = $twig->render("index.twig", array("itemList" => $itemList));
+$view = $twig->render("index.twig", array("itemList" => $itemList, "username" => $username));
 print($view);

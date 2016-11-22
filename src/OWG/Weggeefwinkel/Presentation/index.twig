@@ -3,25 +3,28 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-    <h1>Lijst</h1>
-    <p class="important">
+    <div class="container">
+        <h1>Meest recent: </h1>
+
 
 
         {% for item in itemList %}
-        <div class="lastItems">
-            <h2>{{item.section}}</h2>
-            <h4>{{item.title}}</h4>
+            <div class="lastItems">
+                <h2>{{item.section}}</h2>
+                
+                <div class="itemdetails">
+                    <div class="image"><h4>{{item.title}}</h4><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{item.img}}"></div>
+                    <div class="location">{{item.postcode}} {{ item.city}}</div>
 
-            img: {{item.img}}
-            {{item.postcode}} {{ item.city}}
-
-            date: {{item.date}}
-        </div>
+                    <div class="date">{{item.date}}</div>
+                </div>
+            </div>
 
 
 
 
-    {% endfor %}
-</p>
+        {% endfor %}
+
+    </div>
 
 {% endblock %}

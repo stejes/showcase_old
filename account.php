@@ -17,11 +17,11 @@ use OWG\Weggeefwinkel\Business\UserService;
 
 //print_r($itemList);
 if (isset($_GET["action"]) && $_GET["action"] == "login") {
-    print "in eerste if";
+    //print "in eerste if";
     if (isset($_POST["username"]) && isset($_POST["password"])) {
         $userSvc = new UserService();
         $isValid = $userSvc->checkLogin($_POST["username"], $_POST["password"]);
-        print "in tweede if";
+        //print "in tweede if";
         print $isValid;
         if ($isValid) {
             
@@ -42,5 +42,5 @@ if (!isset($_SESSION["username"])) {
 } else {
     $view = $twig->render("account.twig", array("username" => $_SESSION["username"]));
     print($view);
-    print "jeuj: " . $_SESSION["username"];
+    //print "jeuj: " . $_SESSION["username"];
 }
