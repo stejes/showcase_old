@@ -21,4 +21,12 @@ class UserDAO {
         return null;
         
     }
+    
+    public function insertUser($username, $password){
+        $sql = "insert into users (username, password) values (:username, :password)";
+        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute(array(':username' => $username, ':password' => $password));
+        $dbh = null;
+    }
 }

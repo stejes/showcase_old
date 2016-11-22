@@ -14,5 +14,14 @@ class UserService {
         }
         return false;
     }
+    
+    public function registerUser($username, $password, $password2){
+        if($password == $password2){
+            $userDao = new UserDAO();
+            $userDao->insertUser($username, $password);
+            return true;
+        }
+        return false;
+    }
 
 }

@@ -9,7 +9,7 @@ html, body{
 }
 
 body{
-    padding-bottom: 4em;
+    /*adding-bottom: 4em;*/
 }
 
 #container{
@@ -64,7 +64,7 @@ nav ul li a{
 
 .lastItems{
     padding: 0 1em;
-    margin: 5% auto 0 auto;
+    margin: 0 auto 5% auto;
     background: #FECC00;
     max-width: 350px;
 }
