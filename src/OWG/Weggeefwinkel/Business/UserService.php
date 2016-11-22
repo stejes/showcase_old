@@ -15,10 +15,10 @@ class UserService {
         return false;
     }
     
-    public function registerUser($username, $password, $password2){
+    public function registerUser($username, $password, $password2, $city){
         if($password == $password2){
             $userDao = new UserDAO();
-            $userDao->insertUser($username, $password);
+            $userDao->insertUser($username, $password, $city);
             return true;
         }
         return false;

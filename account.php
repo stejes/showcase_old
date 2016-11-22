@@ -37,7 +37,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "register") {
     //print "in eerste if";
     if (isset($_POST["username"]) && isset($_POST["password"])) {
         $userSvc = new UserService();
-        $isValid = $userSvc->registerUser($_POST["username"], $_POST["password"], $_POST["password2"]);
+        $isValid = $userSvc->registerUser($_POST["username"], $_POST["password"], $_POST["password2"], $_POST["city"]);
         //print "in tweede if";
         print $isValid;
         if ($isValid) {

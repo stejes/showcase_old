@@ -22,11 +22,11 @@ class UserDAO {
         
     }
     
-    public function insertUser($username, $password){
-        $sql = "insert into users (username, password) values (:username, :password)";
+    public function insertUser($username, $password, $city){
+        $sql = "insert into users (username, password, city_id) values (:username, :password, :city)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
-        $stmt->execute(array(':username' => $username, ':password' => $password));
+        $stmt->execute(array(':username' => $username, ':password' => $password, ":city"=>$city));
         $dbh = null;
     }
 }
