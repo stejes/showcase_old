@@ -39,20 +39,30 @@ class ItemDAO {
     }
 
     public function getByUser($username) {
-        $sql = "select title, sections.name as section, date from items, sections, users where section_id = sections.id and user_id = users.id and users.username = :username";
+        $sql = "select items.id as id, title, sections.name as section, date from items, sections, users where section_id = sections.id and user_id = users.id and users.username = :username";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':username' => $username));
         $lijst = array();
         while ($rij = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $item = new Item(null, $rij["title"], null, null, $rij["section"], null, $rij["date"], null, null);
+            $item = new Item($rij["id"], $rij["title"], null, null, $rij["section"], null, $rij["date"], null, null);
             array_push($lijst, $item);
         }
-
-
-
         $dbh = null;
         return $lijst;
+    }
+    
+    public function getById($id){
+        $sql = "select items.id as id, title, section_id, img, description, date, username from items, users where user_id = users.id and items.id = :id";
+        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute(array(':id' => $id));
+        $rij = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $item = new Item($rij["id"], $rij["title"], $rij["description"], $rij["username"], $rij["section_id"], $rij["img"], $rij["date"], null, null);
+        //print_r($item);
+        $dbh = null;
+        return $item;
     }
 
 }

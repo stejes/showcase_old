@@ -18,6 +18,12 @@ class ItemService {
         $itemList = $itemDAO->getByUser($username);
         return $itemList;
     }
+    
+    public function getById($id){
+        $itemDAO = new ItemDAO();
+        $item = $itemDAO->getById($id);
+        return $item;
+    }
 
     
 

@@ -7,7 +7,7 @@
     <ul>
     {% for item in itemList %}
         <li>
-            <a href="item.php">{{ item.title }}</a> - <a href="item.php?action=delete">Delete</a>
+            <a href="item.php?action=edit&id={{ item.id }}">{{ item.title }}</a> - <a href="item.php?action=delete">Delete</a>
         </li>
     {% endfor %}
     </ul>

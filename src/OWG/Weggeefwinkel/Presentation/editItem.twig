@@ -1,0 +1,20 @@
+{% extends "skeleton.twig" %}
+
+{% block title %}Edit item{% endblock %}
+
+{% block content %}
+    <h1>Edit item {{ item.title }}</h1>
+    <form action="item.php" method="post">
+        <input type="text" name="title" value="{{item.title}}">
+        <input type="text" name="description" value="{{item.description}}">
+        <input type="text" name="img" value="{{item.img}}">
+        <select name="section">
+            {% for section in sectionList %}
+                <option value="{{ section.id }}">{{ section.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Wijzigen">
+
+    </form>
+
+{% endblock %}
