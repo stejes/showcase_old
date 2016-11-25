@@ -5,11 +5,14 @@
 {% block content %}
     <h1>Account van: {{ username }}</h1>
     <ul>
-    {% for item in itemList %}
-        <li>
-            <a href="item.php?action=edit&id={{ item.id }}">{{ item.title }}</a> - <a href="item.php?action=delete">Delete</a>
-        </li>
-    {% endfor %}
+        {% for item in itemList %}
+            <li>
+                <a href="item.php?action=edit&id={{ item.id }}">{{ item.title }}</a> - <a href="item.php?action=delete">Delete</a>
+            </li>
+        {% endfor %}
     </ul>
+    <form action="item.php" method="post">
+        <input type="submit" name="addItem" value="Voeg een item toe">
+    </form>
 
 {% endblock %}

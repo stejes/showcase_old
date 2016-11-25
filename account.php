@@ -6,7 +6,7 @@ require_once 'bootstrap.php';
 use OWG\Weggeefwinkel\Business\UserService;
 use OWG\Weggeefwinkel\Business\CityService;
 use OWG\Weggeefwinkel\Business\ItemService;
-
+use OWG\Weggeefwinkel\Exceptions\UsernameExistsException;
 
 //$itemSvc = new ItemService();
 //$itemList = $itemSvc->getLastItems();
@@ -25,9 +25,9 @@ if (isset($_GET["action"]) && $_GET["action"] == "login") {
         $userSvc = new UserService();
         $isValid = $userSvc->checkLogin($_POST["username"], $_POST["password"]);
         //print "in tweede if";
-        print $isValid;
+        //print $isValid;
         if ($isValid) {
-            
+
             $_SESSION["username"] = $_POST["username"];
             header("location: account.php");
             exit(0);
@@ -38,32 +38,41 @@ if (isset($_GET["action"]) && $_GET["action"] == "login") {
 if (isset($_GET["action"]) && $_GET["action"] == "register") {
     //print "in eerste if";
     if (isset($_POST["username"]) && isset($_POST["password"])) {
-        $userSvc = new UserService();
-        $isValid = $userSvc->registerUser($_POST["username"], $_POST["password"], $_POST["password2"], $_POST["city"]);
-        //print "in tweede if";
-        print $isValid;
-        if ($isValid) {
-            
-            $_SESSION["username"] = $_POST["username"];
-            header("location: account.php");
+        try {
+            $userSvc = new UserService();
+            $isValid = $userSvc->registerUser($_POST["username"], $_POST["password"], $_POST["password2"], $_POST["city"]);
+            //print "in tweede if";
+            //print $isValid;
+            if ($isValid) {
+
+                $_SESSION["username"] = $_POST["username"];
+                header("location: account.php");
+                exit(0);
+            }
+        } catch (UsernameExistsException $ex) {
+            header("location: account.php?error=userexists");
             exit(0);
         }
     }
 }
 
-if (isset($_GET["action"]) && $_GET["action"] == "logout"){
+if (isset($_GET["action"]) && $_GET["action"] == "logout") {
     unset($_SESSION["username"]);
 }
 
 if (!isset($_SESSION["username"])) {
     $citySvc = new CityService();
     $cityList = $citySvc->getAll();
-    $view = $twig->render("loginForm.twig", array("cityList"=>$cityList));
+    $error = "";
+    if (isset($_GET["error"])) {
+        $error = $_GET["error"];
+    }
+    $view = $twig->render("loginForm.twig", array("cityList" => $cityList, "error" => $error));
     print($view);
 } else {
     $itemSvc = new ItemService();
     $itemList = $itemSvc->getByUser($_SESSION["username"]);
-    $view = $twig->render("account.twig", array("itemList"=>$itemList, "username" => $_SESSION["username"]));
+    $view = $twig->render("account.twig", array("itemList" => $itemList, "username" => $_SESSION["username"]));
     print($view);
     //print "jeuj: " . $_SESSION["username"];
 }

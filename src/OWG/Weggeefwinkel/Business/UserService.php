@@ -7,9 +7,8 @@ class UserService {
 
     public function checkLogin($username, $password) {
         $userDao = new UserDAO();
-        $user = $userDao->getValidUser($username, $password);
         //print "user" . $user;
-        if(isset($user)){
+        if($userDao->isValidUser($username, $password)){
             return true;
         }
         return false;
@@ -18,7 +17,7 @@ class UserService {
     public function registerUser($username, $password, $password2, $city){
         if($password == $password2){
             $userDao = new UserDAO();
-            $userDao->insertUser($username, $password, $city);
+            $userDao->create($username, $password, $city);
             return true;
         }
         return false;

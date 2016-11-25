@@ -8,11 +8,11 @@
         <input type="text" name="title" value="{{item.title}}">
         <input type="text" name="description" value="{{item.description}}">
         <input type="text" name="img" value="{{item.img}}">
-        <select name="section">
+        <select name="sectionId">
             {% for section in sectionList %}
                 {% set selected = "" %}
-                {{section.id}} en {{item.section}}
-                {% if section.id == item.section %}
+                {{section.id}} en {{item.section.id}}
+                {% if section.id == item.section.id %}
                     
                     {% set selected = "selected"  %}
                 {% endif %}

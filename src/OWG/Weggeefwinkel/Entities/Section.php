@@ -14,12 +14,20 @@ namespace OWG\Weggeefwinkel\Entities;
  */
 class Section {
     //put your code here
+    private static $idMap = array();
     private $id;
     private $name;
     
-    public function __construct($id, $name) {
+    private function __construct($id, $name) {
         $this->id = $id;
         $this->name = $name;
+    }
+    
+    public static function create($id, $name) {
+        if (!isset(self::$idMap[$id])) {
+            self::$idMap[$id] = new Section($id, $name);
+        }
+        return self::$idMap[$id];
     }
     
     function getId() {

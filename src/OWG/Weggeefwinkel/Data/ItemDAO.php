@@ -3,6 +3,10 @@
 namespace OWG\Weggeefwinkel\Data;
 
 use OWG\Weggeefwinkel\Entities\Item;
+use OWG\Weggeefwinkel\Entities\Section;
+use OWG\Weggeefwinkel\Entities\City;
+use OWG\Weggeefwinkel\Entities\User;
+
 use PDO;
 
 /*
@@ -18,12 +22,8 @@ use PDO;
  */
 class ItemDAO {
 
-    //put your code here
     public function getLast() {
-        /* $sql="select items.id, title, description, users.username, postcode, city_id, cities.name, section_id, sections.name, img, date from items"
-          . "where user_id = users.id and users.city_id=cities.id and section_id = :id sort by date desc limit 1"; */
-        /* $sql = "select items.id, items.title, description, users.username, img, postcode, sections.name as sectionname, date, cities.name as cityname from items, users, cities, sections where items.section_id = sections.id and user_id = users.id and city_id = cities.id group by section_id order by section_id asc"; */
-        $sql = "select items.id, items.title, description, users.username, img, postcode, sections.name as sectionname, date, cities.name as cityname from items, users, cities, sections where items.section_id = sections.id and user_id = users.id and city_id = cities.id and items.id in(select max(id) from items group by section_id)";
+        $sql = "select items.id, items.title, description, user_id, users.username, img, postcode, section_id, sections.name as sectionname, date, city_id, cities.name as cityname from items, users, cities, sections where items.section_id = sections.id and user_id = users.id and city_id = cities.id and items.id in(select max(id) from items group by section_id)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         /* print $section;
@@ -31,7 +31,10 @@ class ItemDAO {
         $resultSet = $dbh->query($sql);
         $lijst = array();
         foreach ($resultSet as $rij) {
-            $item = new Item($rij["id"], $rij["title"], $rij["description"], $rij["username"], $rij["sectionname"], $rij["img"], $rij["date"], $rij["postcode"], $rij["cityname"]);
+            $section = Section::create($rij["section_id"], $rij["sectionname"]);
+            $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
+            $user = User::create($rij["user_id"], $rij["username"], $city);
+            $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
             array_push($lijst, $item);
         }
         $dbh = null;
@@ -39,39 +42,58 @@ class ItemDAO {
     }
 
     public function getByUser($username) {
-        $sql = "select items.id as id, title, sections.name as section, date from items, sections, users where section_id = sections.id and user_id = users.id and users.username = :username";
+        $sql = "select items.id as id, title, description, img, section_id, sections.name as sectionname, date, city_id, cities.name as cityname, cities.postcode, user_id, users.username from items, sections, users, cities where section_id = sections.id and user_id = users.id and cities.id = city_id and users.username = :username";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':username' => $username));
         $lijst = array();
         while ($rij = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $item = new Item($rij["id"], $rij["title"], null, null, $rij["section"], null, $rij["date"], null, null);
+            $section = Section::create($rij["section_id"], $rij["sectionname"]);
+            $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
+            $user = User::create($rij["user_id"], $rij["username"], $city);
+            $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
             array_push($lijst, $item);
         }
         $dbh = null;
         return $lijst;
     }
-    
-    public function getById($id){
-        $sql = "select items.id as id, title, section_id, img, description, date, username from items, users where user_id = users.id and items.id = :id";
+
+    public function getById($id) {
+        $sql = "select items.id as id, title, section_id, sections.name as sectionname, city_id, cities.postcode, cities.name as cityname, img, description, date, user_id, username from items, users, cities, sections where user_id = users.id and section_id = sections.id and city_id = cities.id and items.id = :id";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':id' => $id));
         $rij = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $item = new Item($rij["id"], $rij["title"], $rij["description"], $rij["username"], $rij["section_id"], $rij["img"], $rij["date"], null, null);
-        //print_r($item);
+        $section = Section::create($rij["section_id"], $rij["sectionname"]);
+        $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
+        $user = User::create($rij["user_id"], $rij["username"], $city);
+        $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
+        
+//print_r($item);
         $dbh = null;
         return $item;
     }
-    
-    public function updateItem($id, $title, $description, $img, $section){
-        $sql="update items set title = :title, description = :description, img = :img, section_id = :section where id = :id";
+
+    public function update($item) {
+        $sql = "update items set title = :title, description = :description, img = :img, section_id = :section where id = :id";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
-        $stmt->execute(array(':id' => $id, ":title" => $title, ":description" => $description, ":img" => $img, ":section" => $section));
-        
-        
+        $stmt->execute(array(':id' => $item->getId(), ":title" => $item->getTitle(), ":description" => $item->getDescription(), ":img" => $item->getImg(), ":section" => $item->getSection()->getId()));
+    }
+
+    public function create($title, $description, $img, $sectionId, $userId) {
+        $sql = "insert into items (title, description, img, section_id, user_id, date) values (:title, :description, :img, :section, :user, now())";
+        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute(array(":title" => $title, ":description" => $description, ":img" => $img, ":section" => $section, ":user" => $user));
+        $itemId = $dbh->lastInsertId();
+        $dbh = null;
+        $sectionDAO = new SectionDAO();
+        $section = $sectionDao->getById($sectionId);
+        $userDAO = new UserDAO();
+        $user = $userDAO->getById($userId);
+        $item = Item::create($itemId, $title, $description, $img, $date, $user, $section);
+        return $item;
     }
 
 }

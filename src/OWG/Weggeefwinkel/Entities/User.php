@@ -7,21 +7,40 @@ namespace OWG\Weggeefwinkel\Entities;
  * @author steven.jespers
  */
 class User {
+    private static $idMap = array();
+    private $id;
     private $username;
-    private $password;
+    private $city;
     
-    public function __construct($username, $password){
+    private function __construct($id, $username, $city){
+        $this->id = $id;
         $this->username = $username;
-        $this->password = $password;
+        $this->city = $city;
     }
     
+    public static function create($id, $username, $city){
+        if (!isset(self::$idMap[$id])) {
+            self::$idMap[$id] = new User($id, $username, $city);
+        }
+        return self::$idMap[$id];
+    }
+    
+    function getId() {
+        return $this->id;
+    }
+
+        
     function getUsername() {
         return $this->username;
     }
 
-    function getPassword() {
-        return $this->password;
+    
+    
+    function getCity() {
+        return $this->city;
     }
+
+
 
 
 }

@@ -6,6 +6,7 @@ namespace OWG\Weggeefwinkel\Entities;
  * @author steven.jespers
  */
 class Item {
+    private static $idMap = array();
     private $id;
     private $title;
     private $description;
@@ -14,9 +15,8 @@ class Item {
     private $img;
     private $date;
     private $postcode;
-    private $city;
     
-    function __construct($id, $title, $description, $user, $section, $img, $date, $postcode, $city) {
+    private function __construct($id, $title, $description, $img, $date,  $user, $section) {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
@@ -24,18 +24,23 @@ class Item {
         $this->section = $section;
         $this->img = $img;
         $this->date = $date;
-        $this->postcode = $postcode;
-        $this->city = $city;
+    }
+    
+    public static function create($id, $title, $description, $img, $date, $user, $section) {
+        if (!isset(self::$idMap[$id])) {
+            self::$idMap[$id] = new Item($id, $title, $description, $img, $date, $user, $section);
+        }
+        return self::$idMap[$id];
     }
     
    
     
-    function getTitle() {
-        return $this->title;
-    }
-
     function getId() {
         return $this->id;
+    }
+
+    function getTitle() {
+        return $this->title;
     }
 
     function getDescription() {
@@ -62,9 +67,30 @@ class Item {
         return $this->postcode;
     }
 
-    function getCity() {
-        return $this->city;
+    
+    function setId($id) {
+        $this->id = $id;
     }
+
+    function setTitle($title) {
+        $this->title = $title;
+    }
+
+    function setDescription($description) {
+        $this->description = $description;
+    }
+
+    function setSection($section) {
+        $this->section = $section;
+    }
+
+    function setImg($img) {
+        $this->img = $img;
+    }
+
+
+
+
 
 
 

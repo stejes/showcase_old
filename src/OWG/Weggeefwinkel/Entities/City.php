@@ -14,14 +14,22 @@ namespace OWG\Weggeefwinkel\Entities;
  * @author steven.jespers
  */
 class City {
+    private static $idMap = array();
     private $id;
     private $name;
     private $postcode;
     
-    public function __construct($id, $postcode, $name) {
+    private function __construct($id, $postcode, $cityname) {
         $this->id = $id;
         $this->postcode = $postcode;
-        $this->name = $name;
+        $this->name = $cityname;
+    }
+    
+    public static function create($id, $postcode, $cityname) {
+        if (!isset(self::$idMap[$id])) {
+            self::$idMap[$id] = new City($id, $postcode, $cityname);
+        }
+        return self::$idMap[$id];
     }
     
     function getId() {

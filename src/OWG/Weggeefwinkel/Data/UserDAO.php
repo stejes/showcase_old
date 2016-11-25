@@ -5,9 +5,10 @@ include_once 'entities/User.php';*/
 namespace OWG\Weggeefwinkel\Data;
 use OWG\Weggeefwinkel\Data\DBConfig;
 use OWG\Weggeefwinkel\Entities\User;
+use OWG\Weggeefwinkel\Exceptions\UsernameExistsException;
 use PDO;
 class UserDAO {
-     public function getValidUser($username, $password) {
+     public function isValidUser($username, $password) {
         $sql = "select username from users where username = :username and password = :password";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
@@ -15,18 +16,45 @@ class UserDAO {
         $rij = $stmt->fetch(PDO::FETCH_ASSOC);
         $dbh = null;
         if($rij){
-            $user = new User($username, $password);
-            return $user;
+            
+            return true;
         }
-        return null;
+        return false;
         
     }
     
-    public function insertUser($username, $password, $city){
+    public function create($username, $password, $cityId){
+        $existingUser = $this->getByUsername($username);
+        if (!is_null($existingUser)) {
+            throw new UsernameExistsException();
+            
+        }
         $sql = "insert into users (username, password, city_id) values (:username, :password, :city)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
-        $stmt->execute(array(':username' => $username, ':password' => $password, ":city"=>$city));
+        $stmt->execute(array(':username' => $username, ':password' => $password, ":city"=>$cityId));
+        $userId = $dbh->lastInsertId();
         $dbh = null;
+        $cityDAO = new CityDAO();
+        $city = $cityDAO->getById($cityId);
+        $user = User::create($userId, $username, $city);
+        return $user;
+    }
+    
+    public function getByUsername($username){
+        $sql = "select id, username, city_id from users where username = :username";
+        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute(array(':username' => $username));
+        $rij = $stmt->fetch(PDO::FETCH_ASSOC);
+        $dbh = null;
+        if(!$rij){
+            
+            return null;
+        }
+        $cityDAO = new CityDAO();
+        $city = $cityDAO->getById($rij["city_id"]);
+        $user = User::create($rij["id"], $rij["username"], $city);
+        return $user;
     }
 }

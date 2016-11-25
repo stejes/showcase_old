@@ -10,11 +10,11 @@
 
         {% for item in itemList %}
             <div class="lastItems">
-                <h2>{{item.section}}</h2>
+                <h2>{{item.section.name}}</h2>
                 
                 <div class="itemdetails">
                     <div class="image"><h4>{{item.title}}</h4><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{item.img}}"></div>
-                    <div class="location">{{item.postcode}} {{ item.city}}</div>
+                    <div class="location">{{item.city.postcode}} {{ item.city.name}}</div>
 
                     <div class="date">{{item.date}}</div>
                 </div>

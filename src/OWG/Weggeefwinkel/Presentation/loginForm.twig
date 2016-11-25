@@ -21,7 +21,9 @@
 
 
 
-
+{% if error == "userexists" %}
+            <p style="color: red">Gebruikersnaam bezet</p>
+        {% endif %}
     <div class="registerForm">
         <form action="account.php?action=register" method="post">
             <input type="text" name="username" placeholder="Gebruikersnaam">

@@ -25,12 +25,24 @@ class SectionDAO {
         $resultSet = $dbh->query($sql);
         $lijst = array();
         foreach ($resultSet as $rij) {
-            $section = new Section($rij["id"], $rij["name"]);
+            $section = Section::create($rij["id"], $rij["name"]);
             array_push($lijst, $section);
         }
         $dbh = null;
        
         return $lijst;
+    }
+    
+    public function getById($id){
+        $sql="select id, name from sections where id = :id";
+        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute(array(':id' => $id));
+        $rij = $stmt->fetch(PDO::FETCH_ASSOC);
+        $section = Section::create($rij["id"], $rij["name"]);
+        $dbh=null;
+        return $section;
+        
     }
 
 }
