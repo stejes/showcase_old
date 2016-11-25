@@ -24,6 +24,16 @@ class ItemService {
         $item = $itemDAO->getById($id);
         return $item;
     }
+    
+    public function getUser($id){
+        $itemDAO = new ItemDAO();
+        return $itemDAO->getById($id)->getUser();
+    }
+    
+    public function updateItem($id, $title, $description, $img, $section){
+        $itemDAO = new ItemDAO();
+        $itemDAO->updateItem($id, $title, $description, $img, $section);
+    }
 
     
 

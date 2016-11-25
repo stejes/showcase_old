@@ -4,16 +4,23 @@
 
 {% block content %}
     <h1>Edit item {{ item.title }}</h1>
-    <form action="item.php" method="post">
+    <form action="item.php?action=edit&id={{ item.id }}" method="post">
         <input type="text" name="title" value="{{item.title}}">
         <input type="text" name="description" value="{{item.description}}">
         <input type="text" name="img" value="{{item.img}}">
         <select name="section">
             {% for section in sectionList %}
-                <option value="{{ section.id }}">{{ section.name }}</option>
+                {% set selected = "" %}
+                {{section.id}} en {{item.section}}
+                {% if section.id == item.section %}
+                    
+                    {% set selected = "selected"  %}
+                {% endif %}
+
+                <option value="{{ section.id }}" {{ selected }}>{{ section.name }}</option>
             {% endfor %}
         </select>
-        <input type="submit" value="Wijzigen">
+        <input type="submit" name="submit" value="Wijzigen">
 
     </form>
 

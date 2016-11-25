@@ -64,5 +64,14 @@ class ItemDAO {
         $dbh = null;
         return $item;
     }
+    
+    public function updateItem($id, $title, $description, $img, $section){
+        $sql="update items set title = :title, description = :description, img = :img, section_id = :section where id = :id";
+        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute(array(':id' => $id, ":title" => $title, ":description" => $description, ":img" => $img, ":section" => $section));
+        
+        
+    }
 
 }
