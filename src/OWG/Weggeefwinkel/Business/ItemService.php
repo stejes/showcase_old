@@ -45,9 +45,9 @@ class ItemService {
         $itemDAO->update($item);
     }
 
-    public function create($title, $description, $img, $sectionId, $userId) {
+    public function addItem($title, $description, $img, $sectionId, $userId) {
         $itemDAO = new ItemDAO();
-        $itemDAO->addItem($title, $description, $img, $sectionId, $userId);
+        $itemDAO->create($title, $description, $img, $sectionId, $userId);
     }
 
 }

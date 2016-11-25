@@ -22,5 +22,10 @@ class UserService {
         }
         return false;
     }
+    
+    public function getByUsername($username){
+        $userDAO = new UserDAO();
+        return $userDAO->getByUsername($username);
+    }
 
 }

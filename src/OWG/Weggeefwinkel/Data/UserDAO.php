@@ -23,6 +23,19 @@ class UserDAO {
         
     }
     
+    public function getById($id){
+        $sql = "select id, username, city_id from users where id = :id";
+        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute(array(':id' => $id));
+        $rij = $stmt->fetch(PDO::FETCH_ASSOC);
+        $cityDAO = new CityDAO();
+        $city =$cityDAO->getById($rij["city_id"]);
+        $user = User::create($rij["id"], $rij["username"], $city);
+        $dbh = null;
+        return $city;
+    }
+    
     public function create($username, $password, $cityId){
         $existingUser = $this->getByUsername($username);
         if (!is_null($existingUser)) {
