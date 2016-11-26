@@ -10,7 +10,6 @@ use OWG\Weggeefwinkel\Business\SectionService;
 use OWG\Weggeefwinkel\Business\UserService;
 use OWG\Weggeefwinkel\Entities\Item;
 
-
 $sectionSvc = new SectionService();
 $sectionList = $sectionSvc->getAll();
 $itemSvc = new ItemService();
@@ -21,7 +20,7 @@ if (!isset($_SESSION["username"])) {
     $view = $twig->render("loginForm.twig", array("cityList" => $cityList));
     print($view);
 } elseif (isset($_GET["action"]) && $_GET["action"] == "edit") {
-    
+
     $item = $itemSvc->getById($_GET["id"]);
     //print_r($item);
 
@@ -44,7 +43,8 @@ if (!isset($_SESSION["username"])) {
     if (isset($_GET["action"]) && $_GET["action"] == "add") {
         $userId = $userSvc->getByUsername($_SESSION["username"]);
         $itemSvc->addItem($_POST["title"], $_POST["description"], $_POST["img"], $_POST["section"], $userId);
-        
+        header("location: account.php");
+        exit(0);
     } else {
         $view = $twig->render("addItem.twig", array("sectionList" => $sectionList, "username" => $_SESSION["username"]));
         print($view);

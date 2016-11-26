@@ -68,6 +68,8 @@ class UserDAO {
         $cityDAO = new CityDAO();
         $city = $cityDAO->getById($rij["city_id"]);
         $user = User::create($rij["id"], $rij["username"], $city);
-        return $user;
+        /*print_r($user);
+        print 'id: ' . $user->getId();*/
+        return $user->getId();
     }
 }

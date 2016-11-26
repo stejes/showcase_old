@@ -85,7 +85,8 @@ class ItemDAO {
         $sql = "insert into items (title, description, img, section_id, user_id, date) values (:title, :description, :img, :section, :user, :date)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
-        $date = date('m/d/Y h:i:s a');
+        $date = date('Y-m-d H:i:s');
+        print $date;
         $stmt->execute(array(":title" => $title, ":description" => $description, ":img" => $img, ":section" => $sectionId, ":user" => $userId, ":date" => $date));
         $itemId = $dbh->lastInsertId();
         $dbh = null;
