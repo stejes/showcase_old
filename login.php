@@ -3,13 +3,13 @@
 session_start();
 require_once 'bootstrap.php';
 
-//use OWG\Weggeefwinkel\Business\UserService;
-//use OWG\Weggeefwinkel\Business\CityService;
+use OWG\Weggeefwinkel\Business\UserService;
+use OWG\Weggeefwinkel\Business\CityService;
 use OWG\Weggeefwinkel\Business\ItemService;
-//use OWG\Weggeefwinkel\Exceptions\UsernameExistsException;
-/*
-if (isset($_GET["action"])) {
-    if ($_GET["action"] == "login") {
+use OWG\Weggeefwinkel\Exceptions\UsernameExistsException;
+
+
+    if (isset($_POST["login"])) {
         //print "in eerste if";
         if (isset($_POST["username"]) && isset($_POST["password"])) {
             $userSvc = new UserService();
@@ -17,14 +17,13 @@ if (isset($_GET["action"])) {
             //print "in tweede if";
             //print $isValid;
             if ($isValid) {
-
                 $_SESSION["username"] = $_POST["username"];
                 header("location: account.php");
                 exit(0);
             }
         }
     }
-    if ($_GET["action"] == "register") {
+    elseif (isset($_POST["register"])) {
         //print "in eerste if";
         if (isset($_POST["username"]) && isset($_POST["password"])) {
             try {
@@ -39,31 +38,29 @@ if (isset($_GET["action"])) {
                     exit(0);
                 }
             } catch (UsernameExistsException $ex) {
-                header("location: account.php?error=userexists");
+                header("location: login.php?error=userexists");
                 exit(0);
             }
         }
     }
-    if ($_GET["action"] == "logout") {
+    /*elseif ($_GET["action"] == "logout") {
         unset($_SESSION["username"]);
-    }
-}*/
+    }*/
+
 
 
 
 
 
 if (!isset($_SESSION["username"])) {
-    /*$citySvc = new CityService();
+    $citySvc = new CityService();
     $cityList = $citySvc->getAll();
     $error = "";
     if (isset($_GET["error"])) {
         $error = $_GET["error"];
     }
     $view = $twig->render("loginForm.twig", array("cityList" => $cityList, "error" => $error));
-    print($view);*/
-    header("location: login.php");
-    exit(0);
+    print($view);
 } else {
     $itemSvc = new ItemService();
     $itemList = $itemSvc->getByUser($_SESSION["username"]);

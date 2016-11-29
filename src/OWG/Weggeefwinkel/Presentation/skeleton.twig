@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         {% block head %}
             <link rel="stylesheet" href="src/OWG/Weggeefwinkel/Presentation/Css/style.css" />
             <link rel="stylesheet" href="src/OWG/Weggeefwinkel/Presentation/Css/normalize.css" />
@@ -24,7 +25,7 @@
                             </li>
                             <li>
                                 {% if username == "" %}
-                                    <a href="account.php">Login</a>
+                                    <a href="login.php">Login</a>
                                 {% else %}
                                     <a href="account.php?action=logout">Logout</a>
                                 {% endif %}
