@@ -20,13 +20,13 @@ if (isset($_GET["search"])) {
     $keywords="";
     $postcode="";
     $section="";
-    if(isset($_GET("keywords"))&& $_GET["keywords"] != ""){
+    if(isset($_GET["keywords"]) && $_GET["keywords"] != ""){
         $keywords = $_GET["keywords"];
     }
-    if(isset($_GET("postcode"))&& $_GET["postcode"] != ""){
+    if(isset($_GET["postcode"]) && $_GET["postcode"] != ""){
         $postcode = $_GET["postcode"];
     }
-    if(isset($_GET("section"))&& $_GET["section"] != ""){
+    if(isset($_GET["section"]) && $_GET["section"] != ""){
         $section = $_GET["section"];
     }
     

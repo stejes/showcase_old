@@ -59,7 +59,7 @@ class ItemService {
         $itemDAO = new ItemDAO();
         $keywordArray = explode(',', $keywords);
         $itemList = $itemDAO->getByConditions($keywordArray, $postcode, $section);
-        return itemList;
+        return $itemList;
     }
 
 }
