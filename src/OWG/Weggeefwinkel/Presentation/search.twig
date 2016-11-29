@@ -1,0 +1,22 @@
+{% extends "skeleton.twig" %}
+
+{% block title %}Zoeken{% endblock %}
+
+{% block content %}
+    <div class="searchform">
+        <h2>Zoek:</h2>
+        <form action="search.php" method="get">
+            <input type="text" name="keywords" placeholder="trefwoorden"></input>
+            <input type="text" name="postcode" placeholder="postcode"></input>
+            <select name="section">
+                <option selected disabled>Sectie...</option>
+               
+                {% for section in sectionList %}              
+                    <option value="{{ section.id }}">{{ section.name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" name="search" value="Zoek">
+        </form>
+    </div>
+
+{% endblock %}

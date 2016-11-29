@@ -74,6 +74,27 @@ class ItemDAO {
         $dbh = null;
         return $item;
     }
+    
+    public function getByConditions($keywordArray, $postcode, $section){
+        $sql = "select items.id as id, title, section_id, sections.name as sectionname, city_id, cities.postcode, cities.name as cityname, img, description, date, user_id, username from items, users, cities, sections where user_id = users.id and section_id = sections.id and city_id = cities.id";
+        foreach($keywordArray as $keyword){
+            $sql .= " and description LIKE '%".mysql_real_escape_string(trim($keyword))."%'";
+        }      
+        if($postcode != ""){
+            $sql .= " and postcode = :postcode";
+        }
+        if($section != 0){
+            $sql .= " and section_id = :section";
+        }
+        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute(array(':postcode' => $postcode, 'section' => $section));
+        $rij = $stmt->fetch(PDO::FETCH_ASSOC);
+        $section = Section::create($rij["section_id"], $rij["sectionname"]);
+        $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
+        $user = User::create($rij["user_id"], $rij["username"], $city);
+        $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
+    }
 
     public function update($item) {
         $sql = "update items set title = :title, description = :description, img = :img, section_id = :section where id = :id";

@@ -20,6 +20,7 @@
                 <input type="text" name="keyword" placeholder="trefwoorden"></input>
                 <input type="text" name="postcode" placeholder="postcode"></input>
                 <select name="section">
+                    <option selected disabled>Sectie...</option>
                     {% for section in sectionList %}              
                         <option value="{{ section.id }}">{{ section.name }}</option>
                     {% endfor %}
