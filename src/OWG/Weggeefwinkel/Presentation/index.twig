@@ -6,16 +6,19 @@
     <div class="container">
         <div class="contentbar introduction">
             <h2>Welkom op de online weggeefwinkel</h2>
-                    Deze site is een platform waarop u uw oude spullen kunt weggeven
+            Deze site is een platform waarop u uw oude spullen kunt weggeven
         </div>
         <!--<div class="contentBar"><a href="item.php?action=add"><h2>Plaats een advertentie</h2></a></div>-->
         <div>
-        <form action="item.php?action=add" method="post">
-            <input type="submit" name="addItem" value="Plaats een advertentie">
-        </form>
+            <form action="item.php?action=add" method="post">
+                <input type="submit" name="addItem" value="Plaats een advertentie">
+            </form>
         </div>
+
         <div class="searchform">
-            <h2>Zoek:</h2>
+            <div class="titleContainer">
+                <h4 class="reverseTitle"> zoeken </h4>
+            </div>
             <form action="zoek.php" method="get">
                 <input type="text" name="keyword" placeholder="trefwoorden"></input>
                 <input type="text" name="postcode" placeholder="postcode"></input>
@@ -29,30 +32,42 @@
             </form>
         </div>
         <div class="recent">
-            <h1>Meest recent: </h1>
+            <div class="titleContainer">
+                <h4 class="reverseTitle"> recent </h4>
+            </div>
+            <div class=" lastItems">
+                {% for item in itemList %}
 
-            {% for item in itemList %}
-                <div class=" lastItems">
-                    <h3>{{item.section.name|capitalize}}</h3>
+
 
                     <div class="itemdetails">
-                        
-                        <img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}">
-                        <h4>{{ item.title|capitalize }}</h4>
-                        <div class="description">{{ item.description }} </div>
-                        <div class="location">{{ item.user.city.postcode }} - {{ item.user.city.name }}</div>
 
-                        <div class="date">{{ item.date }}</div>
+
+                        <div class="itemImg"><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}"></div>
+                        <div class="itemcontent">
+                            <h4>{{ item.title|capitalize }}</h4>
+                            <div class="itemdescription">{{ item.description }} </div>
+                            <div class="itemfooter">
+                                <span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
+                                <h4 id="item-sectionName">{{item.section.name}}</h4>
+                            </div>
+                        </div>
+
+
+
+
+
                     </div>
-                </div>
 
 
 
 
 
-            {% endfor %}
+
+                {% endfor %}
+
+            </div>
+
         </div>
 
-    </div>
-
-{% endblock %}
+    {% endblock %}
