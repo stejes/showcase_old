@@ -15,10 +15,9 @@ $sectionList = $sectionSvc->getAll();
 $itemSvc = new ItemService();
 $userSvc = new UserService();
 if (!isset($_SESSION["username"])) {
-    $citySvc = new CityService();
-    $cityList = $citySvc->getAll();
-    $view = $twig->render("loginForm.twig", array("cityList" => $cityList));
-    print($view);
+    
+   header("location: login.php");
+   exit(0);
 } elseif (isset($_GET["action"])) {
 
     if ($_GET["action"] == "add"){

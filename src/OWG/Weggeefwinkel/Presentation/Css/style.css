@@ -11,9 +11,13 @@ html, body{
 
 body{
     /*adding-bottom: 4em;*/
-    background: #20DA9B;
+    background: #fafafa;
     font-family: 'Open Sans', sans-serif;
-    color: white;
+    color: #393939;
+}
+
+a{
+    color: #b1b3b5;
 }
 
 #container{
@@ -23,7 +27,7 @@ body{
 
 header{
     clear: both;
-    height: 3em;
+    /*height: 3em;*/
     width: 100%;
     min-width: 330px;
     /*background: #009E2D;*/
@@ -63,7 +67,18 @@ nav ul li a{
 }
 
 .container{
-    margin: 5% 0;
+    /*margin: 5% 0;*/
+}
+
+.container > div{
+    margin-bottom: 2em;
+}
+.introduction{
+    background: #00CBE9;
+}
+
+.introduction h2{
+    color: white;
 }
 
 form{
@@ -79,15 +94,17 @@ form input, form select{
     /*height: 1.8em;*/
     border-radius: 10px;
     padding: 5px;
+    text-align: center;
 }
 
 input[type=submit]{
-    background: #6E6E6E;
+    background: #8CC540;
     border: none;
+    color: #393939;
 }
 
 .contentBar{
-    background: #6E6E6E;
+    background: #4DA8A1;
     height: 3em;
 }
 
@@ -98,12 +115,15 @@ input[type=submit]{
     /*margin: 0 auto 5% auto;*/
     /*background: #FECC00;*/
     /*max-width: 350px;*/
-    background: #4DA8A1;
+    background: #00CBE9 ;
     margin-bottom: 1em;
+    border-radius: 10px;
+    margin: 0 2% 1em 2%;
+    
 }
 
-.lastItems h2{
-    background: #6E6E6E;
+.lastItems h3{
+    color: white;
 }
 
 
@@ -117,7 +137,7 @@ input[type=submit]{
     justify-content: center;
     align-items: center;*/
     /*width: 96%;*/
-    color: #6E6E6E;
+   color: #393939;
 }
 .itemdetails img{
     float: left;
@@ -126,8 +146,12 @@ input[type=submit]{
 
 .itemdetails .description{
     /*float: left;*/
-    height: 50px;
+   /*height: 50px;*/
     
+}
+
+.location{
+    clear: left;
 }
 
 footer{

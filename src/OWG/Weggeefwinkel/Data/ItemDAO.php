@@ -35,7 +35,9 @@ class ItemDAO {
             $user = User::create($rij["user_id"], $rij["username"], $city);
             $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
             array_push($lijst, $item);
+            //print_r($item);
         }
+        
         $dbh = null;
         return $lijst;
     }
