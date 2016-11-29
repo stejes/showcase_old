@@ -4,15 +4,24 @@
 
 {% block content %}
     <h1>Account van: {{ username }}</h1>
-    <ul>
+    <div class="adList">
+    <h2>Mijn advertenties: </h2>
+    <ul class="adList">
+        {% set previousSection = "" %}
         {% for item in itemList %}
+            
+            {% if not (item.section.name == previousSection) %}       
+                <h3>{{ item.section.name }}</h3>
+            {% endif %}
             <li>
-                <a href="item.php?action=edit&id={{ item.id }}">{{ item.title }}</a> - <a href="item.php?action=delete">Delete</a>
+                <a href="item.php?action=edit&id={{ item.id }}">{{ item.title }}</a> - <a href="item.php?action=delete&id={{ item.id }}">Delete</a>
             </li>
+            {% set previousSection = item.section.name %}
         {% endfor %}
     </ul>
-    <form action="item.php" method="post">
-        <input type="submit" name="addItem" value="Voeg een item toe">
+    </div>
+    <form action="item.php?action=add" method="post">
+        <input type="submit" name="" value="Voeg een item toe">
     </form>
 
 {% endblock %}

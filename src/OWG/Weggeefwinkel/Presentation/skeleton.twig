@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         {% block head %}
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
             <link rel="stylesheet" href="src/OWG/Weggeefwinkel/Presentation/Css/style.css" />
             <link rel="stylesheet" href="src/OWG/Weggeefwinkel/Presentation/Css/normalize.css" />
             <title>{% block title %}{% endblock %} - Weggeefwinkel</title>
@@ -27,7 +28,7 @@
                                 {% if username == "" %}
                                     <a href="login.php">Login</a>
                                 {% else %}
-                                    <a href="account.php?action=logout">Logout</a>
+                                    <a href="login.php?action=logout">Logout</a>
                                 {% endif %}
                             </li>
                         </ul>

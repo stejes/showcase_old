@@ -49,5 +49,10 @@ class ItemService {
         $itemDAO = new ItemDAO();
         $itemDAO->create($title, $description, $img, $sectionId, $userId);
     }
+    
+    public function deleteItem($id){
+        $itemDAO = new ItemDAO();
+        $itemDAO->delete($id);
+    }
 
 }

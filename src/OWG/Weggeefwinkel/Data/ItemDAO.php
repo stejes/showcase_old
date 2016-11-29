@@ -21,9 +21,8 @@ use PDO;
  * @author steven.jespers
  */
 class ItemDAO {
-
     public function getLast() {
-        $sql = "select items.id, items.title, description, user_id, users.username, img, postcode, section_id, sections.name as sectionname, date, city_id, cities.name as cityname from items, users, cities, sections where items.section_id = sections.id and user_id = users.id and city_id = cities.id and items.id in(select max(id) from items group by section_id)";
+        $sql = "select items.id, items.title, description, user_id, users.username, img, postcode, section_id, sections.name as sectionname, date, city_id, cities.name as cityname from items, users, cities, sections where items.section_id = sections.id and user_id = users.id and city_id = cities.id and items.date in(select max(date) from items group by section_id)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         /* print $section;
@@ -42,7 +41,7 @@ class ItemDAO {
     }
 
     public function getByUser($username) {
-        $sql = "select items.id as id, title, description, img, section_id, sections.name as sectionname, date, city_id, cities.name as cityname, cities.postcode, user_id, users.username from items, sections, users, cities where section_id = sections.id and user_id = users.id and cities.id = city_id and users.username = :username";
+        $sql = "select items.id as id, title, description, img, section_id, sections.name as sectionname, date, city_id, cities.name as cityname, cities.postcode, user_id, users.username from items, sections, users, cities where section_id = sections.id and user_id = users.id and cities.id = city_id and users.username = :username order by section_id";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':username' => $username));
@@ -86,7 +85,7 @@ class ItemDAO {
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $date = date('Y-m-d H:i:s');
-        print $date;
+        //print $date;
         $stmt->execute(array(":title" => $title, ":description" => $description, ":img" => $img, ":section" => $sectionId, ":user" => $userId, ":date" => $date));
         $itemId = $dbh->lastInsertId();
         $dbh = null;
@@ -96,6 +95,14 @@ class ItemDAO {
         $user = $userDAO->getById($userId);
         $item = Item::create($itemId, $title, $description, $img, $date, $user, $section);
         return $item;
+    }
+    
+    public function delete($id){
+        $sql = "delete from items where id = :id";
+        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute(array(":id" => $id));
+        $dbh = null;
     }
 
 }

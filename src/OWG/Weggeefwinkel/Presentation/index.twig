@@ -4,16 +4,30 @@
 
 {% block content %}
     <div class="container">
+        <div class="contentBar"><h2>Plaats een advertentie</h2></div>
+        <div class="searchform">
+            <h2>Zoek:</h2>
+            <form>
+                <input type="text" name="keyword" placeholder="trefwoorden"></input>
+                <input type="text" name="postcode" placeholder="postcode"></input>
+                <select name="section">
+                    {% for section in sectionList %}              
+                        <option value="{{ section.id }}">{{ section.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" name="search" value="Zoek">
+            </form>
+        </div>
         <h1>Meest recent: </h1>
 
-
-
         {% for item in itemList %}
-            <div class="lastItems">
+            <div class=" lastItems">
                 <h2>{{item.section.name}}</h2>
-                
+
                 <div class="itemdetails">
-                    <div class="image"><h4>{{item.title}}</h4><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{item.img}}"></div>
+                    <h4>{{item.title}}</h4>
+                    <img src="src/OWG/Weggeefwinkel/Presentation/Img/{{item.img}}">
+                    <div class="description">{{ item.description }} </div>
                     <div class="location">{{item.city.postcode}} {{ item.city.name}}</div>
 
                     <div class="date">{{item.date}}</div>
