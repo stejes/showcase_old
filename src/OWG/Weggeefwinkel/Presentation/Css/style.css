@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html, body{
@@ -10,6 +11,13 @@ html, body{
 
 body{
     /*adding-bottom: 4em;*/
+    background: #fafafa;
+    font-family: 'Open Sans', sans-serif;
+    color: #393939;
+}
+
+a{
+    color: #b1b3b5;
 }
 
 #container{
@@ -19,10 +27,11 @@ body{
 
 header{
     clear: both;
-    height: 2em;
+    /*height: 3em;*/
     width: 100%;
     min-width: 330px;
-    background: #009E2D;
+    /*background: #009E2D;*/
+    background: #393939;
     
 }
 
@@ -58,32 +67,95 @@ nav ul li a{
 }
 
 .container{
-    margin: 5% 0;
+    /*margin: 5% 0;*/
 }
+
+.container > div{
+    margin-bottom: 2em;
+}
+.introduction{
+    background: #00CBE9;
+}
+
+.introduction h2{
+    color: white;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+form input, form select{
+    width: 96%;
+    margin-bottom: 5px;
+    /*height: 1.8em;*/
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
+input[type=submit]{
+    background: #8CC540;
+    border: none;
+    color: #393939;
+}
+
+.contentBar{
+    background: #4DA8A1;
+    height: 3em;
+}
+
 
 
 .lastItems{
-    padding: 0 1em;
-    margin: 0 auto 5% auto;
-    background: #FECC00;
-    max-width: 350px;
+    /*padding: 0 2%;*/
+    /*margin: 0 auto 5% auto;*/
+    /*background: #FECC00;*/
+    /*max-width: 350px;*/
+    background: #00CBE9 ;
+    margin-bottom: 1em;
+    border-radius: 10px;
+    margin: 0 2% 1em 2%;
+    
 }
 
-.lastItems img{
-    max-height: 10em;
+.lastItems h3{
+    color: white;
 }
+
+
 
 
 
 .itemdetails{
     margin: auto;
-    display: flex;
+    /*display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center;*/
+    /*width: 96%;*/
+   color: #393939;
 }
+.itemdetails img{
+    float: left;
+    max-height: 50px;
+}
+
+.itemdetails .description{
+    /*float: left;*/
+   /*height: 50px;*/
+    
+}
+
+.location{
+    clear: left;
+}
+
 footer{
-    background: #009E2D;
+    background: #393939;
     height: 2em;
     color: white;
     font-weight: bold;

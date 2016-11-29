@@ -9,10 +9,10 @@
 
 
     <div class="loginForm">
-        <form action="account.php?action=login" method="post">
+        <form action="login.php" method="post">
             <input type="text" name="username" placeholder="Gebruikersnaam">
             <input type="password" name="password" placeholder="Wachtwoord">
-            <input type="submit" value="Inloggen">
+            <input type="submit" name="login" value="Inloggen">
         </form>
     </div>
 
@@ -25,11 +25,11 @@
             <p style="color: red">Gebruikersnaam bezet</p>
         {% endif %}
     <div class="registerForm">
-        <form action="account.php?action=register" method="post">
+        <form action="login.php" method="post">
             <input type="text" name="username" placeholder="Gebruikersnaam">
             <select name="city">
 
-
+                <option selected disabled>Woonplaats...</option>
                 {% for city in cityList %}
                     <option value="{{ city.id }}">
                         {{city.postcode}}, {{ city.name }}
@@ -38,7 +38,7 @@
             </select>
             <input type="password" name="password" placeholder="Wachtwoord">
             <input type="password" name="password2" placeholder="Bevestig wachtwoord">
-            <input type="submit" value="Registreren">
+            <input type="submit" name="register" value="Registreren">
         </form>
     </div>
 

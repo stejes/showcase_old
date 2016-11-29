@@ -4,26 +4,54 @@
 
 {% block content %}
     <div class="container">
-        <h1>Meest recent: </h1>
+        <div class="contentbar introduction">
+            <h2>Welkom op de online weggeefwinkel</h2>
+                    Deze site is een platform waarop u uw oude spullen kunt weggeven
+        </div>
+        <!--<div class="contentBar"><a href="item.php?action=add"><h2>Plaats een advertentie</h2></a></div>-->
+        <div>
+        <form action="item.php?action=add" method="post">
+            <input type="submit" name="addItem" value="Plaats een advertentie">
+        </form>
+        </div>
+        <div class="searchform">
+            <h2>Zoek:</h2>
+            <form action="zoek.php" method="get">
+                <input type="text" name="keyword" placeholder="trefwoorden"></input>
+                <input type="text" name="postcode" placeholder="postcode"></input>
+                <select name="section">
+                    <option selected disabled>Sectie...</option>
+                    {% for section in sectionList %}              
+                        <option value="{{ section.id }}">{{ section.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" name="search" value="Zoek">
+            </form>
+        </div>
+        <div class="recent">
+            <h1>Meest recent: </h1>
 
+            {% for item in itemList %}
+                <div class=" lastItems">
+                    <h3>{{item.section.name|capitalize}}</h3>
 
+                    <div class="itemdetails">
+                        
+                        <img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}">
+                        <h4>{{ item.title|capitalize }}</h4>
+                        <div class="description">{{ item.description }} </div>
+                        <div class="location">{{ item.user.city.postcode }} - {{ item.user.city.name }}</div>
 
-        {% for item in itemList %}
-            <div class="lastItems">
-                <h2>{{item.section.name}}</h2>
-                
-                <div class="itemdetails">
-                    <div class="image"><h4>{{item.title}}</h4><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{item.img}}"></div>
-                    <div class="location">{{item.city.postcode}} {{ item.city.name}}</div>
-
-                    <div class="date">{{item.date}}</div>
+                        <div class="date">{{ item.date }}</div>
+                    </div>
                 </div>
-            </div>
 
 
 
 
-        {% endfor %}
+
+            {% endfor %}
+        </div>
 
     </div>
 

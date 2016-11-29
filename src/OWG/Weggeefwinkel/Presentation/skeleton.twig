@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         {% block head %}
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
             <link rel="stylesheet" href="src/OWG/Weggeefwinkel/Presentation/Css/style.css" />
             <link rel="stylesheet" href="src/OWG/Weggeefwinkel/Presentation/Css/normalize.css" />
             <title>{% block title %}{% endblock %} - Weggeefwinkel</title>
@@ -17,16 +19,16 @@
                                 <a href="index.php">Start</a>
                             </li>
                             <li>
-                                <a href="#">Zoek</a>
+                                <a href="search.php">Zoek</a>
                             </li>
                             <li>
                                 <a href="account.php">Account</a>
                             </li>
                             <li>
                                 {% if username == "" %}
-                                    <a href="account.php">Login</a>
+                                    <a href="login.php">Login</a>
                                 {% else %}
-                                    <a href="account.php?action=logout">Logout</a>
+                                    <a href="login.php?action=logout">Logout</a>
                                 {% endif %}
                             </li>
                         </ul>

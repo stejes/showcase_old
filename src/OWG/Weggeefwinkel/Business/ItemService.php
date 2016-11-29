@@ -49,5 +49,17 @@ class ItemService {
         $itemDAO = new ItemDAO();
         $itemDAO->create($title, $description, $img, $sectionId, $userId);
     }
+    
+    public function deleteItem($id){
+        $itemDAO = new ItemDAO();
+        $itemDAO->delete($id);
+    }
+    
+    public function search($keywords, $postcode, $section){
+        $itemDAO = new ItemDAO();
+        $keywordArray = explode(',', $keywords);
+        $itemList = $itemDAO->getByConditions($keywordArray, $postcode, $section);
+        return $itemList;
+    }
 
 }
