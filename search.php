@@ -15,24 +15,27 @@ if (isset($_SESSION["username"])) {
 }
 
 if (isset($_GET["search"])) {
-    print "wel";
+    //print "wel";
     $itemSvc = new ItemService();
-    $keywords="";
-    $postcode="";
-    $section="";
-    if(isset($_GET["keywords"]) && $_GET["keywords"] != ""){
+    $keywords = "";
+    $postcode = "";
+    $section = "";
+    if (isset($_GET["keywords"]) && $_GET["keywords"] != "") {
         $keywords = $_GET["keywords"];
     }
-    if(isset($_GET["postcode"]) && $_GET["postcode"] != ""){
+    if (isset($_GET["postcode"]) && $_GET["postcode"] != "") {
         $postcode = $_GET["postcode"];
     }
-    if(isset($_GET["section"]) && $_GET["section"] != ""){
+    if (isset($_GET["section"]) && $_GET["section"] != "") {
         $section = $_GET["section"];
     }
-    
+    $keywords = explode(" ", $_GET["keywords"]);
+
     $itemList = $itemSvc->search($keywords, $postcode, $section);
-}
-
-
-$view = $twig->render("search.twig", array("sectionList" => $sectionList, "username" => $username));
+    // print_r($keywords);
+    $view = $twig->render("search.twig", array("sectionList" => $sectionList, "itemList" => $itemList, "keywords" => $keywords, "username" => $username));
     print($view);
+} else {
+    $view = $twig->render("search.twig", array("sectionList" => $sectionList, "username" => $username));
+    print($view);
+}

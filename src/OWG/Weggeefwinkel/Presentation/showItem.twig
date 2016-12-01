@@ -1,0 +1,30 @@
+{% extends "skeleton.twig" %}
+
+{% block title %}Edit item{% endblock %}
+
+{% block content %}
+    <h1>View item {{ item.title }}</h1>
+     <div class="itemdetails">
+
+
+               <div class="itemImg"> <a href="item.php?id={{ item.id }}"><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}"></a></div>
+
+                <div class="itemcontent">
+
+                    <h4>{{ item.title|capitalize }}</h4>
+                    <div class="itemdescription">{{ item.description }} </div>
+
+                    <div class="itemfooter">
+                        <span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
+                        <h4 id="item-sectionName">{{item.section.name}}</h4>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        
+
+{% endblock %}

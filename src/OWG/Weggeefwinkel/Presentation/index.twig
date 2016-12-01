@@ -3,7 +3,7 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-    <div class="container">
+   
         <div class="contentbar introduction">
             <h2>Welkom op de online weggeefwinkel</h2>
             Deze site is een platform waarop u uw oude spullen kunt weggeven
@@ -19,8 +19,8 @@
             <div class="titleContainer">
                 <h4 class="reverseTitle"> zoeken </h4>
             </div>
-            <form action="zoek.php" method="get">
-                <input type="text" name="keyword" placeholder="trefwoorden"></input>
+            <form action="search.php" method="get">
+                <input type="text" name="keywords" placeholder="trefwoorden"></input>
                 <input type="text" name="postcode" placeholder="postcode"></input>
                 <select name="section">
                     <option selected disabled>Sectie...</option>
@@ -35,7 +35,7 @@
             <div class="titleContainer">
                 <h4 class="reverseTitle"> recent </h4>
             </div>
-            <div class=" lastItems">
+           
                 {% for item in itemList %}
 
 
@@ -66,8 +66,8 @@
 
                 {% endfor %}
 
-            </div>
+           
 
-        </div>
+        
 
     {% endblock %}

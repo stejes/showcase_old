@@ -4,13 +4,15 @@
 
 {% block content %}
     <div class="searchform">
-        <h2>Zoek:</h2>
+        <div class="titleContainer">
+            <h4 class="reverseTitle">zoeken</h4>
+        </div>
         <form action="search.php" method="get">
             <input type="text" name="keywords" placeholder="trefwoorden"></input>
             <input type="text" name="postcode" placeholder="postcode"></input>
             <select name="section">
                 <option selected disabled>Sectie...</option>
-               
+
                 {% for section in sectionList %}              
                     <option value="{{ section.id }}">{{ section.name }}</option>
                 {% endfor %}
@@ -18,5 +20,35 @@
             <input type="submit" name="search" value="Zoek">
         </form>
     </div>
+
+
+    {% for item in itemList %}
+        
+            <div class="itemdetails">
+
+
+               <div class="itemImg"> <a href="item.php?id={{ item.id }}"><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}"></a></div>
+
+                <div class="itemcontent">
+
+                    <h4>{{ item.title|capitalize }}</h4>
+                    <div class="itemdescription">{{ item.description }} </div>
+
+                    <div class="itemfooter">
+                        <span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
+                        <h4 id="item-sectionName">{{item.section.name}}</h4>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        
+
+    {% endfor %}
+
+
 
 {% endblock %}

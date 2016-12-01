@@ -6,7 +6,6 @@ use OWG\Weggeefwinkel\Entities\Item;
 use OWG\Weggeefwinkel\Entities\Section;
 use OWG\Weggeefwinkel\Entities\City;
 use OWG\Weggeefwinkel\Entities\User;
-
 use PDO;
 
 /*
@@ -21,6 +20,7 @@ use PDO;
  * @author steven.jespers
  */
 class ItemDAO {
+
     public function getLast() {
         $sql = "select items.id, items.title, description, user_id, users.username, img, postcode, section_id, sections.name as sectionname, date, city_id, cities.name as cityname from items, users, cities, sections where items.section_id = sections.id and user_id = users.id and city_id = cities.id and items.date in(select max(date) from items group by section_id)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
@@ -37,7 +37,7 @@ class ItemDAO {
             array_push($lijst, $item);
             //print_r($item);
         }
-        
+
         $dbh = null;
         return $lijst;
     }
@@ -69,31 +69,44 @@ class ItemDAO {
         $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
         $user = User::create($rij["user_id"], $rij["username"], $city);
         $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
-        
+
 //print_r($item);
         $dbh = null;
         return $item;
     }
-    
-    public function getByConditions($keywordArray, $postcode, $section){
+
+    public function getByConditions($keywordArray, $postcode, $section) {
         $sql = "select items.id as id, title, section_id, sections.name as sectionname, city_id, cities.postcode, cities.name as cityname, img, description, date, user_id, username from items, users, cities, sections where user_id = users.id and section_id = sections.id and city_id = cities.id";
-        foreach($keywordArray as $keyword){
-            $sql .= " and description LIKE '%".mysql_real_escape_string(trim($keyword))."%'";
-        }      
-        if($postcode != ""){
+        foreach ($keywordArray as $keyword) {
+            $sql .= " and (description LIKE '%" . mysql_real_escape_string(trim($keyword)) . "%' or title LIKE '%" .  mysql_real_escape_string(trim($keyword))."%')";
+        }
+        if ($postcode != "") {
             $sql .= " and postcode = :postcode";
         }
-        if($section != 0){
+        else{
+            $sql .= " and :postcode = :postcode";
+        }
+        if ($section != 0) {
             $sql .= " and section_id = :section";
         }
+        else{
+            $sql .= " and :section  = :section";
+        }
+        //print_r($postcode);
+        
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
-        $stmt->execute(array(':postcode' => $postcode, 'section' => $section));
-        $rij = $stmt->fetch(PDO::FETCH_ASSOC);
-        $section = Section::create($rij["section_id"], $rij["sectionname"]);
-        $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
-        $user = User::create($rij["user_id"], $rij["username"], $city);
-        $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
+        $stmt->execute(array(':postcode' => $postcode, ':section' => $section));
+        //print "sql: " . $sql;
+        $lijst = array();
+        while ($rij = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $section = Section::create($rij["section_id"], $rij["sectionname"]);
+            $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
+            $user = User::create($rij["user_id"], $rij["username"], $city);
+            $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
+            array_push($lijst, $item);
+        }
+        return $lijst;
     }
 
     public function update($item) {
@@ -119,8 +132,8 @@ class ItemDAO {
         $item = Item::create($itemId, $title, $description, $img, $date, $user, $section);
         return $item;
     }
-    
-    public function delete($id){
+
+    public function delete($id) {
         $sql = "delete from items where id = :id";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);

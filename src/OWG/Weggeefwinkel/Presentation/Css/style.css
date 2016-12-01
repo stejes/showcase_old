@@ -18,6 +18,10 @@ body{
 
 a{
     color: #b1b3b5;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
 }
 
 .titleContainer{
@@ -93,8 +97,8 @@ nav ul li a{
     /*margin: 5% 0;*/
 }
 
-.container > div{
-    margin-bottom: 2em;
+.container > div:not(.introduction){
+    margin-top: 2em;
 }
 .introduction{
     background: #00CBE9;
@@ -149,6 +153,18 @@ input[type=submit]{
    
 }
 
+.itemdetails a{
+    color: inherit;
+}
+
+.itemdetails:hover{
+    background: rgba(57, 57, 57, 0.5);
+}
+
+.itemdetails:hover .itemfooter{
+    box-shadow: none;
+}
+
 .itemImg{
     height: 100%;
     width: 120px;
@@ -168,6 +184,11 @@ input[type=submit]{
     height: 90%;
     width: auto;
     
+}
+
+.itemImg a{
+    height: 100%;
+    width: 100%;
 }
 
 .itemcontent{
@@ -196,7 +217,7 @@ input[type=submit]{
     flex-direction: row;
     justify-content: space-between;
     box-shadow: 0 -10px 10px 2px #00CBE9;
-    z-index: 5;
+    z-index: 15;
     height: 1.3em;
 }
 
