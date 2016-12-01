@@ -1,2 +1,3 @@
 bootstrap.php
 src/OWG/Weggeefwinkel/Data/DBConfig.php
+nbproject/*
