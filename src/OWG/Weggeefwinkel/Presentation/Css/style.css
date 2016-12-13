@@ -85,6 +85,24 @@ a:hover{
     text-decoration: underline;
 }
 
+.editDelete{
+    margin-top: 0;
+    background: #00CBE9;
+    margin-bottom: 1em;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.editDelete a{
+    color: white;
+    text-decoration: underline;
+    text-align: center;
+    
+}
+
+
 #container{
     min-height: 100%;
     position: relative;
@@ -138,7 +156,7 @@ nav ul li a{
 }
 
 .container > div:not(.introduction){
-    margin-top: 2em;
+   /* margin-top: 2em;*/
 }
 .introduction{
     background: #00CBE9;
@@ -185,7 +203,7 @@ input[type=submit]{
    /*border-radius: 10px;*/
    color: #393939;
    background: #00CBE9;
-   margin: 0  0 1em 0;
+   margin: 0  0 0 0;
    display: flex;
    align-items: center;
    width: 100%;

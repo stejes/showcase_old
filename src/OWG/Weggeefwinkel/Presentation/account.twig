@@ -3,12 +3,12 @@
 {% block title %}Account{% endblock %}
 
 {% block content %}
-    <h1>Account van: {{ username }}</h1>
-    <div class="adList">
+    <h1>Account van: {{ user.username }}</h1>
+
         <div class="titleContainer">
             <h4 class="reverseTitle">advertenties</h4>
         </div>
-        <ul class="adList">
+        <!--<ul class="adList">
             {% set previousSection = "" %}
             {% for item in itemList %}
 
@@ -20,8 +20,36 @@
                 </li>
                 {% set previousSection = item.section.name %}
             {% endfor %}
-        </ul>
-    </div>
+        </ul>-->
+
+         {% for item in itemList %}
+
+
+
+                    <div class="itemdetails">
+
+
+                        <div class="itemImg"><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}"></div>
+                        <div class="itemcontent">
+                            <h4>{{ item.title|capitalize }}</h4>
+                            <div class="itemdescription">{{ item.description }} </div>
+                            <div class="itemfooter">
+                                <span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
+                                <h4 id="item-sectionName">{{item.section.name}}</h4>
+                            </div>
+                            
+                        </div>
+                    </div>
+                            <div class="editDelete"><a href="item.php?action=edit&id={{ item.id }}">Edit</a>&nbsp;-&nbsp;<a href="item.php?action=delete&id={{ item.id }}">Delete</a></div>
+                            
+
+
+
+
+
+
+                {% endfor %}
+
         
     <form action="item.php?action=add" method="post">
         <input type="submit" name="" value="Voeg een item toe">

@@ -70,6 +70,6 @@ class UserDAO {
         $user = User::create($rij["id"], $rij["username"], $city);
         /*print_r($user);
         print 'id: ' . $user->getId();*/
-        return $user->getId();
+        return $user;
     }
 }

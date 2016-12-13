@@ -9,6 +9,7 @@ use OWG\Weggeefwinkel\Business\ItemService;
 use OWG\Weggeefwinkel\Business\SectionService;
 use OWG\Weggeefwinkel\Business\UserService;
 use OWG\Weggeefwinkel\Entities\Item;
+use OWG\Weggeefwinkel\Business\PhotoService;
 
 $sectionSvc = new SectionService();
 $sectionList = $sectionSvc->getAll();
@@ -26,8 +27,10 @@ if (isset($_GET["action"])) {
     } else {
         if ($_GET["action"] == "add") {
             if (isset($_POST["addItem"])) {
-                $userId = $userSvc->getByUsername($_SESSION["username"]);
-                $itemSvc->addItem($_POST["title"], $_POST["description"], $_POST["img"], $_POST["section"], $userId);
+                $photoSvc = new PhotoService();
+                $photoName = $photoSvc->handlePhoto($_FILES["img"]);
+                $user = $userSvc->getByUsername($_SESSION["username"]);
+                $itemSvc->addItem($_POST["title"], $_POST["description"], $photoName, $_POST["section"], $user->getId());
                 header("location: account.php");
                 exit(0);
             } else {
@@ -37,18 +40,21 @@ if (isset($_GET["action"])) {
         }
 
         if ($item->getUser()->getUsername() == $_SESSION["username"]) {
-//print_r($item);
+            //print_r($item);
             if ($_GET["action"] == "edit") {
 
 
                 if (isset($_POST["submit"])) {
-                    $itemSvc->updateItem($_GET["id"], $_POST["title"], $_POST["description"], $_POST["img"], $_POST["sectionId"]);
+                    $photoSvc = new PhotoService();
+                    //print_r($_FILES["img"]);
+                    $photoName = $photoSvc->handlePhoto($_FILES["img"]);
+                    $itemSvc->updateItem($_GET["id"], $_POST["title"], $_POST["description"], $photoName, $_POST["sectionId"]);
                     /* $itemSvc = new ItemService();
                       $item = $itemSvc->getById($_GET["id"]); */
                     header("location: account.php");
                     exit(0);
-//print_r($item);
-//$itemUser = $itemSvc->getUser($_GET["id"]);
+                    //print_r($item);
+                    //$itemUser = $itemSvc->getUser($_GET["id"]);
                 }
 
                 $view = $twig->render("editItem.twig", array("item" => $item, "sectionList" => $sectionList, "username" => $_SESSION["username"]));
