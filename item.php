@@ -14,7 +14,9 @@ $sectionSvc = new SectionService();
 $sectionList = $sectionSvc->getAll();
 $itemSvc = new ItemService();
 $userSvc = new UserService();
-$item = $itemSvc->getById($_GET["id"]);
+if (isset($_GET["id"])) {
+    $item = $itemSvc->getById($_GET["id"]);
+}
 
 if (isset($_GET["action"])) {
     if (!isset($_SESSION["username"])) {

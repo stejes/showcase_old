@@ -26,23 +26,63 @@ a:hover{
 
 .titleContainer{
     display: flex;
-    
+    margin-top: 1em;
     flex-direction: row;
     justify-content: flex-end;
     
 }
 
+.titleContainer .sectionname{
+    background: #00CBE9;
+    height: 1em;
+    line-height: 1em;
+    color: white;
+    font-size: 0.8em;
+    /*margin-right: 1.875em;*/
+    width: 10em;
+    /*margin-top: 1em;*/
+
+}
+
+
+
+.adList{
+    margin-bottom: 1em;
+}
+
+.adList div:first-child{
+    margin-top: 0;
+}
+
 .reverseTitle{
     background: orange;
     /*max-width: 4em;**/
-    width: 5em;
+    width: 8em;
+    height: 2em;
+    line-height: 2em;
     border-radius: 10px;
     text-align: center;
-    padding: 0 5px;
+    
+    padding: 0 0.5em;
     
     margin: 0 2% 0.2em 0;
     
     
+}
+
+.itemEditDelete{
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    background: #00CBE9;
+    padding: 0 1em;
+    line-height: 2em;
+    border-bottom: inset 2px white;
+}
+
+.itemEditDelete a{
+    color: white;
+    text-decoration: underline;
 }
 
 #container{

@@ -27,5 +27,10 @@ class UserService {
         $userDAO = new UserDAO();
         return $userDAO->getByUsername($username);
     }
+    
+    public function getByEmail($email){
+        $userDAO = new UserDAO();
+        return $userDAO->getByEmail($email);
+    }
 
 }

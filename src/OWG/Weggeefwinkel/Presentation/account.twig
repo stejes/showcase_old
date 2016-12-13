@@ -5,21 +5,24 @@
 {% block content %}
     <h1>Account van: {{ username }}</h1>
     <div class="adList">
-    <h2>Mijn advertenties: </h2>
-    <ul class="adList">
-        {% set previousSection = "" %}
-        {% for item in itemList %}
-            
-            {% if not (item.section.name == previousSection) %}       
-                <h3>{{ item.section.name }}</h3>
-            {% endif %}
-            <li>
-                <a href="item.php?action=edit&id={{ item.id }}">{{ item.title }}</a> - <a href="item.php?action=delete&id={{ item.id }}">Delete</a>
-            </li>
-            {% set previousSection = item.section.name %}
-        {% endfor %}
-    </ul>
+        <div class="titleContainer">
+            <h4 class="reverseTitle">advertenties</h4>
+        </div>
+        <ul class="adList">
+            {% set previousSection = "" %}
+            {% for item in itemList %}
+
+                {% if not (item.section.name == previousSection) %}       
+                    <div class="titleContainer"><h4 class="reverseTitle sectionname">{{ item.section.name }}</h4></div>
+                {% endif %}
+                <li class="itemEditDelete">
+                    <span class="itemTitle">{{ item.title|capitalize }}</span>  <div class="editDelete"><a href="item.php?action=edit&id={{ item.id }}">Edit</a> - <a href="item.php?action=delete&id={{ item.id }}">Delete</a></div>
+                </li>
+                {% set previousSection = item.section.name %}
+            {% endfor %}
+        </ul>
     </div>
+        
     <form action="item.php?action=add" method="post">
         <input type="submit" name="" value="Voeg een item toe">
     </form>
