@@ -22,7 +22,7 @@ use PDO;
 class ItemDAO {
 
     public function getLast() {
-        $sql = "select items.id, items.title, description, user_id, users.username, img, postcode, section_id, sections.name as sectionname, date, city_id, cities.name as cityname from items, users, cities, sections where items.section_id = sections.id and user_id = users.id and city_id = cities.id and items.date in(select max(date) from items group by section_id)";
+        $sql = "select items.id, items.title, description, user_id, users.username, password, email,  img, postcode, section_id, sections.name as sectionname, date, city_id, cities.name as cityname from items, users, cities, sections where items.section_id = sections.id and user_id = users.id and city_id = cities.id and items.date in(select max(date) from items group by section_id)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         /* print $section;
@@ -32,7 +32,7 @@ class ItemDAO {
         foreach ($resultSet as $rij) {
             $section = Section::create($rij["section_id"], $rij["sectionname"]);
             $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
-            $user = User::create($rij["user_id"], $rij["username"], $city);
+            $user = User::create($rij["user_id"], $rij["username"], $city,$rij["email"], $rij["password"]);
             $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
             array_push($lijst, $item);
             //print_r($item);
@@ -43,7 +43,7 @@ class ItemDAO {
     }
 
     public function getByUser($username) {
-        $sql = "select items.id as id, title, description, img, section_id, sections.name as sectionname, date, city_id, cities.name as cityname, cities.postcode, user_id, users.username from items, sections, users, cities where section_id = sections.id and user_id = users.id and cities.id = city_id and users.username = :username order by section_id";
+        $sql = "select items.id as id, title, description, img, section_id, sections.name as sectionname, date, city_id, cities.name as cityname, cities.postcode, user_id, users.username, email, password from items, sections, users, cities where section_id = sections.id and user_id = users.id and cities.id = city_id and users.username = :username order by section_id";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':username' => $username));
@@ -51,7 +51,7 @@ class ItemDAO {
         while ($rij = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $section = Section::create($rij["section_id"], $rij["sectionname"]);
             $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
-            $user = User::create($rij["user_id"], $rij["username"], $city);
+            $user = User::create($rij["user_id"], $rij["username"], $city, $rij["email"], $rij["password"]);
             $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
             array_push($lijst, $item);
         }
@@ -60,14 +60,14 @@ class ItemDAO {
     }
 
     public function getById($id) {
-        $sql = "select items.id as id, title, section_id, sections.name as sectionname, city_id, cities.postcode, cities.name as cityname, img, description, date, user_id, username from items, users, cities, sections where user_id = users.id and section_id = sections.id and city_id = cities.id and items.id = :id";
+        $sql = "select items.id as id, title, section_id, sections.name as sectionname, city_id, cities.postcode, cities.name as cityname, img, description, date, user_id, username, email, password from items, users, cities, sections where user_id = users.id and section_id = sections.id and city_id = cities.id and items.id = :id";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':id' => $id));
         $rij = $stmt->fetch(PDO::FETCH_ASSOC);
         $section = Section::create($rij["section_id"], $rij["sectionname"]);
         $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
-        $user = User::create($rij["user_id"], $rij["username"], $city);
+        $user = User::create($rij["user_id"], $rij["username"], $city, $rij["email"], $rij["password"]);
         $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
 
 //print_r($item);

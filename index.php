@@ -11,7 +11,6 @@ $itemList = $itemSvc->getLastItems();
 $sectionSvc = new SectionService();
 $sectionList = $sectionSvc->getAll();
 
-
 if(isset($_SESSION["username"])){
     $username = $_SESSION["username"];
 }
