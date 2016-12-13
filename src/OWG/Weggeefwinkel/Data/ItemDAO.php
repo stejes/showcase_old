@@ -76,7 +76,7 @@ class ItemDAO {
     }
 
     public function getByConditions($keywordArray, $postcode, $section) {
-        $sql = "select items.id as id, title, section_id, sections.name as sectionname, city_id, cities.postcode, cities.name as cityname, img, description, date, user_id, username from items, users, cities, sections where user_id = users.id and section_id = sections.id and city_id = cities.id";
+        $sql = "select items.id as id, title, section_id, sections.name as sectionname, city_id, cities.postcode, cities.name as cityname, img, description, date, user_id, username, email, password from items, users, cities, sections where user_id = users.id and section_id = sections.id and city_id = cities.id";
         foreach ($keywordArray as $keyword) {
             $sql .= " and (description LIKE '%" . mysql_real_escape_string(trim($keyword)) . "%' or title LIKE '%" .  mysql_real_escape_string(trim($keyword))."%')";
         }
@@ -102,7 +102,7 @@ class ItemDAO {
         while ($rij = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $section = Section::create($rij["section_id"], $rij["sectionname"]);
             $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
-            $user = User::create($rij["user_id"], $rij["username"], $city);
+            $user = User::create($rij["user_id"], $rij["username"], $city, $rij["email"], $rij["password"]);
             $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
             array_push($lijst, $item);
         }

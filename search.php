@@ -5,9 +5,12 @@ require_once 'bootstrap.php';
 
 use OWG\Weggeefwinkel\Business\SectionService;
 use OWG\Weggeefwinkel\Business\ItemService;
+use OWG\Weggeefwinkel\Business\CityService;
 
 $sectionSvc = new SectionService();
 $sectionList = $sectionSvc->getAll();
+$citySvc = new CityService();
+$cityList = $citySvc->getAll();
 if (isset($_SESSION["username"])) {
     $username = $_SESSION["username"];
 } else {
@@ -33,9 +36,9 @@ if (isset($_GET["search"])) {
 
     $itemList = $itemSvc->search($keywords, $postcode, $section);
     // print_r($keywords);
-    $view = $twig->render("search.twig", array("sectionList" => $sectionList, "itemList" => $itemList, "keywords" => $keywords, "username" => $username));
+    $view = $twig->render("search.twig", array("sectionList" => $sectionList, "itemList" => $itemList, "keywords" => $keywords, "username" => $username, "cityList" => $cityList));
     print($view);
 } else {
-    $view = $twig->render("search.twig", array("sectionList" => $sectionList, "username" => $username));
+    $view = $twig->render("search.twig", array("sectionList" => $sectionList, "username" => $username, "cityList" => $cityList));
     print($view);
 }

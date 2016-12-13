@@ -9,7 +9,12 @@
         </div>
         <form action="search.php" method="get">
             <input type="text" name="keywords" placeholder="trefwoorden"></input>
-            <input type="text" name="postcode" placeholder="postcode"></input>
+           <select name="postcode">
+                <option selected disabled>Postcode...</option>
+                {% for city in cityList %}              
+                    <option value="{{ city.id }}">{{ city.name }}, {{ city.postcode }}</option>
+                {% endfor %}
+            </select>
             <select name="section">
                 <option selected disabled>Sectie...</option>
 
