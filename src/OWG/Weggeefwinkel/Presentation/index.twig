@@ -4,75 +4,88 @@
 
 {% block content %}
 
-    <div class="contentbar introduction">
+    <section class="contentbar introduction">
         <h2>Welkom op de online weggeefwinkel</h2>
         Deze site is een platform waarop u uw oude spullen kunt weggeven
-    </div>
-    <!--<div class="contentBar"><a href="item.php?action=add"><h2>Plaats een advertentie</h2></a></div>-->
-    <div>
-        <form action="item.php?action=add" method="post">
-            <input type="submit" name="addItem" value="Plaats een advertentie">
-        </form>
-    </div>
+    </section>
 
-    <div class="searchform">
-        <div class="titleContainer">
-            <h4 class="reverseTitle"> zoeken </h4>
-        </div>
-        <form action="search.php" method="get">
-            <input type="text" name="keywords" placeholder="trefwoorden"></input>
-            <select name="postcode">
-                <option selected disabled>Postcode...</option>
-                {% for city in cityList %}              
-                    <option value="{{ city.id }}">{{ city.name }}, {{ city.postcode }}</option>
-                {% endfor %}
-            </select>
-            <select name="section">
-                <option selected disabled>Sectie...</option>
-                {% for section in sectionList %}              
-                    <option value="{{ section.id }}">{{ section.name }}</option>
-                {% endfor %}
-            </select>
-            <input type="submit" name="search" value="Zoek">
-        </form>
-    </div>
-    <div class="recent">
-        <div class="titleContainer">
-            <h4 class="reverseTitle"> recent </h4>
+    <section class="startsearch clearFix">
+        <div class="container start ">
+            <div class="titleContainer">
+                <h4 class="reverseTitle"> start </h4>
+            </div>
+            <form action="item.php?action=add" method="post">
+                <input type="submit" name="addItem" value="Plaats een advertentie">
+            </form>
+            <form action="search.php?keywords=&search=Zoek" method="post">
+                <input type="submit" name="search" value="Toon alle advertenties">
+            </form>
         </div>
 
-        {% for item in itemList %}
+
+        <div class="container search ">
+            <div class="titleContainer">
+                <h4 class="reverseTitle"> zoeken </h4>
+            </div>
+            <form action="search.php" method="get">
+                <input type="text" name="keywords" placeholder="trefwoorden"></input>
+                <select name="postcode">
+                    <option selected disabled>Postcode...</option>
+                    {% for city in cityList %}              
+                        <option value="{{ city.id }}">{{ city.name }}, {{ city.postcode }}</option>
+                    {% endfor %}
+                </select>
+                <select name="section">
+                    <option selected disabled>Sectie...</option>
+                    {% for section in sectionList %}              
+                        <option value="{{ section.id }}">{{ section.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" name="search" value="Zoek">
+            </form>
+        </div>
+    </section>
+
+    <section class="recent itemlist">
+        <div class="container recent">
+            <div class="titleContainer">
+                <h4 class="reverseTitle"> recent </h4>
+            </div>
+
+            {% for item in itemList %}
 
 
 
-            <div class="itemdetails">
+                <div class="itemdetails">
 
 
-                <div class="itemImg"><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}"></div>
-                <div class="itemcontent">
-                    <h4>{{ item.title|capitalize }}</h4>
-                    <div class="itemdescription">{{ item.description }} </div>
-                    <div class="itemfooter">
-                        <span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
-                        <h4 id="item-sectionName">{{item.section.name}}</h4>
+                    <div class="itemImg"><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}"></div>
+                    <div class="itemcontent">
+                        <h4>{{ item.title|capitalize }}</h4>
+                        <div class="itemdescription">{{ item.description }} </div>
+                        <div class="itemfooter">
+                            <span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
+                            <h4 id="item-sectionName">{{item.section.name}}</h4>
+                        </div>
                     </div>
+
+
+
+
+
                 </div>
 
 
 
 
 
-            </div>
+
+            {% endfor %}
+        </div>
+    </section>
 
 
 
 
 
-
-        {% endfor %}
-
-
-
-
-
-    {% endblock %}
+{% endblock %}

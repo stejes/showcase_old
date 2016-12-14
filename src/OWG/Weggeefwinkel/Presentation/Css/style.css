@@ -2,18 +2,27 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 
-html, body{
-    height: 100%;
+
+html{
+    /*position: relative;
+    height: 100%;*/
+    min-height: 100%;
+    position: relative;
     
 }
 
 body{
     /*adding-bottom: 4em;*/
-    background: #fafafa;
+    /*background: #fafafa;*/
+    background: white;
     font-family: 'Open Sans', sans-serif;
     color: #393939;
+    padding-bottom: 4em;
+    min-height: 100%;
+    /*position: relative;*/
 }
 
 a{
@@ -24,12 +33,25 @@ a:hover{
     text-decoration: none;
 }
 
+.usernav{
+    clear: both;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    background:#393939;
+    border-top: 2px dotted white;
+}
+
+.usernav ul li{
+    width: 10em;
+}
+
 .titleContainer{
     display: flex;
     margin-top: 1em;
     flex-direction: row;
     justify-content: flex-end;
-    
+
 }
 
 .titleContainer .sectionname{
@@ -62,12 +84,12 @@ a:hover{
     line-height: 2em;
     border-radius: 10px;
     text-align: center;
-    
+
     padding: 0 0.5em;
-    
+
     margin: 0 2% 0.2em 0;
-    
-    
+
+
 }
 
 .itemEditDelete{
@@ -87,7 +109,8 @@ a:hover{
 
 .editDelete{
     margin-top: 0;
-    background: #00CBE9;
+    /*background: #00CBE9;*/
+     background: rgba(0,203,233, 0.1) ;
     margin-bottom: 1em;
     color: white;
     display: flex;
@@ -96,28 +119,28 @@ a:hover{
 }
 
 .editDelete a{
-    color: white;
+    color: #393939;
     text-decoration: underline;
     text-align: center;
-    
+
 }
 
 
-#container{
+/*#container{
     min-height: 100%;
     position: relative;
-}
+}*/
 
 header{
     clear: both;
     /*height: 3em;*/
     width: 100%;
-    
+
     /*min-width: 330px;*/
-    
+
     /*background: #009E2D;*/
     background: #393939;
-    
+
 }
 
 header nav{
@@ -134,7 +157,7 @@ nav ul li{
     float: left;
     width: 5em;
     text-align: center;
-    border-right: 2px white solid;
+    border-right: 2px white dotted;
     /*background-color: green;*/
     height: 2em;
 }
@@ -156,7 +179,7 @@ nav ul li a{
 }
 
 .container > div:not(.introduction){
-   /* margin-top: 2em;*/
+    /* margin-top: 2em;*/
 }
 .introduction{
     background: #00CBE9;
@@ -171,7 +194,7 @@ form{
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
 }
 
 form input, form select{
@@ -201,15 +224,15 @@ input[type=submit]{
 }
 
 .itemdetails{
-   /*border-radius: 10px;*/
-   color: #393939;
-   background: #00CBE9;
-   margin: 1em  0 0 0;
-   display: flex;
-   align-items: center;
-   width: 100%;
-   height: 6em;
-   
+    /*border-radius: 10px;*/
+    color: #393939;
+    background: #00CBE9;
+    margin: 1em  0 0 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 6em;
+
 }
 
 .itemdetails:nth-child(2){
@@ -221,7 +244,8 @@ input[type=submit]{
 }
 
 .itemdetails:hover{
-    background: rgba(57, 57, 57, 0.5);
+    /*background: rgba(57, 57, 57, 0.5);*/
+     background: rgba(0,203,233, 0.1); 
 }
 
 .itemdetails:hover .itemfooter{
@@ -239,14 +263,14 @@ input[type=submit]{
     justify-content: center;
     align-items: center;
     margin: 0 0.5em;
-    
-    
+
+
 }
 
 .itemImg img{
     height: 90%;
     width: auto;
-    
+
 }
 
 .itemImg a{
@@ -262,9 +286,9 @@ input[type=submit]{
     width: 100%;
     height: 100%;
     /*padding-left: 0.5em;*/
-    
-    
-    
+
+
+
 }
 
 .itemdescription{
@@ -306,8 +330,8 @@ input[type=submit]{
 
 .itemdetails .description{
     /*float: left;*/
-   /*height: 50px;*/
-    
+    /*height: 50px;*/
+
 }
 
 .location{
@@ -320,8 +344,46 @@ footer{
     color: white;
     font-weight: bold;
     position: absolute;
-    bottom: -3em;
+   bottom: 0em;
     width: 100%;
 }
 
+/*
+clearfix hack
+http://nicolasgallagher.com/micro‐clearfix‐hack/
+*/
+.clearFix:before, .clearFix:after {
+    content: " ";
+    display: table;
+}
+.clearFix:after {
+    clear: both;
+}
+/* enkel voor IE6/7 */
+.clearFix {
+    *zoom: 1;
+}
 
+
+@media screen and (min-width: 768px){
+    .introduction{
+        /*width: 100%;*/
+    }
+    .container{
+        width: 50%;
+    }
+
+    .container.start{
+        float: left;
+        height: 100%
+    }
+    .container.search{
+        float: right;
+    }
+
+    .startsearch{
+        width: 100%;
+        margin-bottom: 5em;
+        background: rgba(0,203,233, 0.1) ;
+    }
+}

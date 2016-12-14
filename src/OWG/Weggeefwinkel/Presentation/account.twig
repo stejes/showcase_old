@@ -3,6 +3,16 @@
 {% block title %}Account{% endblock %}
 
 {% block content %}
+    <nav class="usernav">
+        <ul>
+            <li>
+                <a href="items.php">Mijn advertenties</a>
+                </li>
+                <li>
+                <a href="messages.php">Mijn berichten</a>
+                </li>
+        </ul>
+    </nav>
     <h1>Account van: {{ user.username }}</h1>
     <div class="recent">
         <div class="titleContainer">
