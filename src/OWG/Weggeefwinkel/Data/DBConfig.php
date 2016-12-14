@@ -7,5 +7,4 @@ class DBConfig {
     public static $DB_CONNSTRING = "mysql:host=localhost;dbname=owg;charset=utf8";
     public static $DB_USERNAME = "owgadmin";
     public static $DB_PASSWORD = "owgpasw";
-
 }

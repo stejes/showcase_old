@@ -8,8 +8,9 @@
         </div>
     <div class="itemfull">
         <div class="detailsfull">
-                <h4 id="item-sectionName">{{item.section.name}}</h4>
-                <span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
+            <span class="detailtitle"> Sectie: </span><h4 id="item-sectionName">{{item.section.name}}</h4>
+            <span class="detailtitle">Gebruiker: </span><span class="detailtext">{{ item.user.username }}</span>
+                <span class="detailtitle">Woonplaats: </span><span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
         </div>
         <img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}">
         
