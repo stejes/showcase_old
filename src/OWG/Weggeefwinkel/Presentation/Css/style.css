@@ -111,7 +111,8 @@ a:hover{
 .editDelete{
     margin-top: 0;
     /*background: #00CBE9;*/
-     background: rgba(0,203,233, 0.1) ;
+     /*background: rgba(0,203,233, 0.1) ;*/
+     background: rgba(0,203,233, 1);
     margin-bottom: 1em;
     color: white;
     display: flex;
@@ -205,6 +206,7 @@ form input, form select{
     border-radius: 10px;
     padding: 5px;
     text-align-last: center; /*last bijgevoegd voor chrome compatibiliteit*/
+    border: none;
 }
 
 
@@ -225,13 +227,19 @@ input[type=submit]{
 
 .itemdetails{
     /*border-radius: 10px;*/
-    color: #393939;
+    /*color: #393939;
     background: #00CBE9;
     margin: 1em  0 0 0;
     display: flex;
     align-items: center;
     width: 100%;
-    height: 6em;
+    height: 6em;*/
+     display: flex;
+    align-items: center;
+    border-bottom: #00CBE9 2px dotted;
+    border-top: #00CBE9 2px dotted;
+    margin: 1em  0 0 0;
+    height: 8em;
 
 }
 
@@ -254,8 +262,8 @@ input[type=submit]{
 
 .itemImg{
     height: 100%;
-    width: 120px;
-    background-color: rgba(233, 203, 233, 0.8);
+    width: 180px;
+    /*background-color: rgba(233, 203, 233, 0.8);*/
     /*border: solid 1px rgba(0, 203, 233, 0.2);*/
     text-align: center;
     overflow: hidden;
@@ -263,6 +271,8 @@ input[type=submit]{
     justify-content: center;
     align-items: center;
     margin: 0 0.5em;
+    border-left: #00CBE9 1px dotted;
+    border-right: #00CBE9 1px dotted;
 
 
 }
@@ -292,7 +302,7 @@ input[type=submit]{
 }
 
 .itemdescription{
-    height: 2.3em;
+    /*height: 2.3em;*/
     line-height: 1em;
     overflow: hidden;
     /*flex-grow: 3;*/
@@ -311,7 +321,7 @@ input[type=submit]{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    box-shadow: 0 -10px 10px 2px #00CBE9;
+    /*box-shadow: 0 -10px 10px 2px #00CBE9;*/
     z-index: 15;
     height: 1.3em;
 }
@@ -340,6 +350,10 @@ input[type=submit]{
     /*float: left;*/
     /*height: 50px;*/
 
+}
+
+.itemdescription{
+    height: 100%;
 }
 
 .itemfull {
@@ -416,6 +430,7 @@ http://nicolasgallagher.com/micro‐clearfix‐hack/
     .startsearch{
         width: 100%;
         margin-bottom: 5em;
+        padding-bottom: 1em;
         background: rgba(0,203,233, 0.1) ;
     }
 }
