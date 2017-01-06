@@ -3,25 +3,38 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="contentbar introduction">
-            <h2>Welkom op de online weggeefwinkel</h2>
-            Deze site is een platform waarop u uw oude spullen kunt weggeven
-        </div>
-        <!--<div class="contentBar"><a href="item.php?action=add"><h2>Plaats een advertentie</h2></a></div>-->
-        <div>
+
+    <section class="contentbar introduction">
+        <h2>Welkom op de online weggeefwinkel</h2>
+        Deze site is een platform waarop u uw oude spullen kunt weggeven
+    </section>
+
+    <section class="startsearch clearFix">
+        <div class="container start ">
+            <div class="titleContainer">
+                <h4 class="reverseTitle"> start </h4>
+            </div>
             <form action="item.php?action=add" method="post">
                 <input type="submit" name="addItem" value="Plaats een advertentie">
             </form>
+            <form action="search.php?keywords=&search=Zoek" method="post">
+                <input type="submit" name="search" value="Toon alle advertenties">
+            </form>
         </div>
 
-        <div class="searchform">
+
+        <div class="container search ">
             <div class="titleContainer">
                 <h4 class="reverseTitle"> zoeken </h4>
             </div>
-            <form action="zoek.php" method="get">
-                <input type="text" name="keyword" placeholder="trefwoorden"></input>
-                <input type="text" name="postcode" placeholder="postcode"></input>
+            <form action="search.php" method="get">
+                <input type="text" name="keywords" placeholder="trefwoorden"></input>
+                <select name="postcode">
+                    <option selected disabled>Postcode...</option>
+                    {% for city in cityList %}              
+                        <option value="{{ city.id }}">{{ city.name }}, {{ city.postcode }}</option>
+                    {% endfor %}
+                </select>
                 <select name="section">
                     <option selected disabled>Sectie...</option>
                     {% for section in sectionList %}              
@@ -31,43 +44,48 @@
                 <input type="submit" name="search" value="Zoek">
             </form>
         </div>
-        <div class="recent">
+    </section>
+
+    <section class="itemlist">
+        <div class="container recent">
             <div class="titleContainer">
                 <h4 class="reverseTitle"> recent </h4>
             </div>
-            <div class=" lastItems">
-                {% for item in itemList %}
+
+            {% for item in itemList %}
 
 
 
-                    <div class="itemdetails">
+                <div class="itemdetails">
 
 
-                        <div class="itemImg"><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}"></div>
-                        <div class="itemcontent">
-                            <h4>{{ item.title|capitalize }}</h4>
-                            <div class="itemdescription">{{ item.description }} </div>
-                            <div class="itemfooter">
-                                <span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
-                                <h4 id="item-sectionName">{{item.section.name}}</h4>
-                            </div>
+                    <div class="itemImg"><img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}"></div>
+                    <div class="itemcontent">
+                        <h4>{{ item.title|capitalize }}</h4>
+                        <div class="itemdescription">{{ item.description }} </div>
+                        <div class="itemfooter">
+                            <span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
+                            <h4 id="item-sectionName">{{item.section.name}}</h4>
                         </div>
-
-
-
-
-
                     </div>
 
 
 
 
 
+                </div>
 
-                {% endfor %}
 
-            </div>
 
+
+
+
+            {% endfor %}
         </div>
+    </section>
 
-    {% endblock %}
+
+
+
+
+{% endblock %}

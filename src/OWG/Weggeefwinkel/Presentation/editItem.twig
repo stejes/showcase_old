@@ -4,10 +4,11 @@
 
 {% block content %}
     <h1>Edit item {{ item.title }}</h1>
-    <form action="item.php?action=edit&id={{ item.id }}" method="post">
+    <form action="item.php?action=edit&id={{ item.id }}" method="post" enctype="multipart/form-data">
         <input type="text" name="title" value="{{item.title}}">
         <input type="text" name="description" value="{{item.description}}">
-        <input type="text" name="img" value="{{item.img}}">
+        <label for="img">Foto wijzigen (max 1.9 Mb): </label>
+        <input type="file" name="img" >
         <select name="sectionId">
             {% for section in sectionList %}
                 {% set selected = "" %}

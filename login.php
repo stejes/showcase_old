@@ -6,7 +6,7 @@ require_once 'bootstrap.php';
 use OWG\Weggeefwinkel\Business\UserService;
 use OWG\Weggeefwinkel\Business\CityService;
 use OWG\Weggeefwinkel\Business\ItemService;
-use OWG\Weggeefwinkel\Exceptions\UsernameExistsException;
+
 
 if (isset($_POST["login"])) {
     //print "in eerste if";
@@ -32,7 +32,7 @@ if (isset($_POST["login"])) {
             if ($isValid) {
 
                 $_SESSION["username"] = $_POST["username"];
-                header("location: account.php");
+                header("location: items.php");
                 exit(0);
             }
         } catch (UsernameExistsException $ex) {

@@ -1,0 +1,39 @@
+{% extends "skeleton.twig" %}
+
+{% block title %}Edit item{% endblock %}
+
+{% block content %}
+    <div class="titleContainer">
+            <h4 class="reverseTitle">details</h4>
+        </div>
+    <div class="itemfull">
+        <div class="detailsfull">
+            <span class="detailtitle"> Sectie: </span><span id="">{{item.section.name}}</span></br>
+            <span class="detailtitle">Gebruiker: </span><span class="detailtext">{{ item.user.username }}</span></br>
+                <span class="detailtitle">Woonplaats: </span><span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
+        </div>
+        <img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}">
+        
+
+        <div class="itemcontent">
+
+            <h4>{{ item.title|capitalize }}</h4>
+            <div class="itemdescription">{{ item.description }} </div>
+
+         
+        </div>
+
+
+
+
+
+    </div>
+            
+             <form action="item.php?action=show&id={{ item.id }}" method="post">
+            <input type="text" name="title" placeholder="titel"></input>
+            <textarea id="text" name="text" placeholder="schrijf hier uw bericht" rows="10" cols="50" ></textarea>
+            <input type="submit" name="send" value="Verstuur">
+        </form>
+
+
+{% endblock %}

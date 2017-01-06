@@ -3,26 +3,45 @@
 {% block title %}Account{% endblock %}
 
 {% block content %}
-    <h1>Account van: {{ username }}</h1>
-    <div class="adList">
-    <h2>Mijn advertenties: </h2>
-    <ul class="adList">
-        {% set previousSection = "" %}
-        {% for item in itemList %}
-            
-            {% if not (item.section.name == previousSection) %}       
-                <h3>{{ item.section.name }}</h3>
-            {% endif %}
-            <li>
-                <a href="item.php?action=edit&id={{ item.id }}">{{ item.title }}</a> - <a href="item.php?action=delete&id={{ item.id }}">Delete</a>
-            </li>
-            {% set previousSection = item.section.name %}
-        {% endfor %}
-    </ul>
-    </div>
-    <form action="item.php?action=add" method="post">
-        <input type="submit" name="" value="Voeg een item toe">
+   
+    
+    
+
+ 
+    
+     <div class="titleContainer">
+            <h4 class="reverseTitle">Gegevens</h4>
+        </div>
+
+
+    <form action="account.php?action=editData" method="post">
+       
+        {{ user.username }}
+        <input type="text" name="email" placeholder="email" value="{{ user.email }}">
+        <select name="city">
+
+            <option selected disabled>Woonplaats...</option>
+            {% for city in cityList %}
+                {% set selected = "" %}
+                {% if city.name == user.city.name %}
+                    {% set selected = "selected" %}
+                {% endif %}
+                <option value="{{ city.id }}" {{selected}}>
+                    {{city.postcode}}, {{ city.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Wijzig</button>
+
     </form>
-    <h2>Mijn gegevens</h2>
+           <div class="titleContainer">
+            <h4 class="reverseTitle">Paswoord</h4>
+        </div>
+    <form action="account.php?action=editPass" method="post">
+        <input type="password" name="oldPass" placeholder="oud paswoord" >
+        <input type="password" name="pass" placeholder="nieuw paswoord" >
+        <input type="password" name="pass2" placeholder="bevestig nieuw paswoord" >
+        <button type="submit">Wijzig</button>
+    </form>
 
 {% endblock %}
