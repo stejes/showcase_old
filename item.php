@@ -8,6 +8,7 @@ require_once 'bootstrap.php';
 use OWG\Weggeefwinkel\Business\ItemService;
 use OWG\Weggeefwinkel\Business\SectionService;
 use OWG\Weggeefwinkel\Business\UserService;
+use OWG\Weggeefwinkel\Business\MessageService;
 use OWG\Weggeefwinkel\Entities\Item;
 use OWG\Weggeefwinkel\Business\PhotoService;
 
@@ -60,14 +61,20 @@ if (isset($_GET["action"])) {
             } else {
                 print "ni van u eh";
             }
-           
         }
-         $view = $twig->render("editItem.twig", array("item" => $item, "sectionList" => $sectionList, "username" => $_SESSION["username"]));
+        $view = $twig->render("editItem.twig", array("item" => $item, "sectionList" => $sectionList, "username" => $_SESSION["username"]));
         print($view);
     } elseif ($_GET["action"] == "delete") {
         $itemSvc->deleteItem($_GET["id"]);
         header("location: account.php");
     } elseif ($_GET["action"] == "show") {
+        if (isset($_POST['send'])) {
+
+            //print ("jaja");
+
+            $messageSvc = new MessageService();
+            $messageSvc->writeMessage($_POST['title'], $_POST['text'], $item->getUser(), null);
+        }
         $view = $twig->render("showItem.twig", array("item" => $item, "sectionList" => $sectionList, "username" => $_SESSION["username"]));
         print($view);
     }

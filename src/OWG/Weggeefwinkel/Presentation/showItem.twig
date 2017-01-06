@@ -29,9 +29,9 @@
 
     </div>
             
-             <form action="messages.php" method="post">
+             <form action="item.php?action=show&id={{ item.id }}" method="post">
             <input type="text" name="title" placeholder="titel"></input>
-            <textarea id="text" placeholder="schrijf hier uw bericht" rows="10" cols="50" ></textarea>
+            <textarea id="text" name="text" placeholder="schrijf hier uw bericht" rows="10" cols="50" ></textarea>
             <input type="submit" name="send" value="Verstuur">
         </form>
 
