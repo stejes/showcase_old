@@ -13,4 +13,11 @@
  */
 class Message {
     //put your code here
+    private $id;
+    private $title;
+    private $text;
+    private $otherUser;
+    private $date;
+    private $parentId;
+    private $isRead;
 }

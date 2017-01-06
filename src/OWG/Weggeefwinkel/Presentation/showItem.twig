@@ -8,8 +8,8 @@
         </div>
     <div class="itemfull">
         <div class="detailsfull">
-            <span class="detailtitle"> Sectie: </span><h4 id="item-sectionName">{{item.section.name}}</h4>
-            <span class="detailtitle">Gebruiker: </span><span class="detailtext">{{ item.user.username }}</span>
+            <span class="detailtitle"> Sectie: </span><span id="">{{item.section.name}}</span></br>
+            <span class="detailtitle">Gebruiker: </span><span class="detailtext">{{ item.user.username }}</span></br>
                 <span class="detailtitle">Woonplaats: </span><span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
         </div>
         <img src="src/OWG/Weggeefwinkel/Presentation/Img/{{ item.img }}">
@@ -28,6 +28,12 @@
 
 
     </div>
+            
+             <form action="messages.php" method="post">
+            <input type="text" name="title" placeholder="titel"></input>
+            <textarea id="text" placeholder="schrijf hier uw bericht" rows="10" cols="50" ></textarea>
+            <input type="submit" name="send" value="Verstuur">
+        </form>
 
 
 {% endblock %}
