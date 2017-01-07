@@ -62,7 +62,8 @@ class PhotoService {
                 return $fileName;
             } else {
                 echo "Sorry, there was an error uploading your file.";
-                return $target_file;
+                //return $target_file;
+                return "ja";
             }
         }
     }
