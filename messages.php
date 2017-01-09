@@ -15,6 +15,7 @@ if (!isset($_SESSION["username"])) {
 
     if (isset($_POST['send'])) {
         print ("jaja");
+        
         $messageSvc = new MessageService();
         $messageSvc->writeMessage($_POST['title'], $_POST['text'], $_SESSION['username'], null);
     }
