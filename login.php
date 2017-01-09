@@ -12,11 +12,12 @@ if (isset($_POST["login"])) {
     //print "in eerste if";
     if (isset($_POST["username"]) && isset($_POST["password"])) {
         $userSvc = new UserService();
-        $isValid = $userSvc->checkLogin($_POST["username"], $_POST["password"]);
+        $id = $userSvc->checkLogin($_POST["username"], $_POST["password"]);
         //print "in tweede if";
         //print $isValid;
-        if ($isValid) {
+        if ($id != null) {
             $_SESSION["username"] = $_POST["username"];
+            $_SESSION["id"] = $id;
             header("location: account.php");
             exit(0);
         }

@@ -4,6 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head %}
+            <link rel="icon" 
+                  type="image/png" 
+                  href="src/OWG/Weggeefwinkel/Presentation/Img/favicon.ico">
             <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
 
             <link rel="stylesheet" href="src/OWG/Weggeefwinkel/Presentation/Css/normalize.css" />
@@ -30,23 +33,27 @@
                             {% if username == "" %}
                                 <a href="login.php">Login</a>
                             {% else %}
-                                <a href="login.php?action=logout">Logout</a>
+                                <a href="login.php?action=logout">Logout</a> 
                             {% endif %}
                         </li>
+                       
                     </ul>
                 </nav>
             </header>
-                        {% if not username == null %}
-            <nav class="usernav">
-                <ul>
-                    <li>
-                        <a href="items.php">Mijn advertenties</a>
-                    </li>
-                    <li>
-                        <a href="messages.php">Mijn berichten</a>
-                    </li>
-                </ul>
-            </nav>
+            {% if not username == null %}
+                <nav class="usernav">
+                    <ul>
+                        <li>
+                            <a href="account.php">User: {{ username }}</a>
+                        </li>
+                        <li>
+                            <a href="items.php">Mijn advertenties</a>
+                        </li>
+                        <li>
+                            <a href="messages.php">Mijn berichten</a>
+                        </li>
+                    </ul>
+                </nav>
             {% endif %}
 
         {% endblock %}

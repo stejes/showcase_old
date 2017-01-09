@@ -9,10 +9,11 @@ class UserService {
     public function checkLogin($username, $password) {
         $userDao = new UserDAO();
         //print "user" . $user;
-        if($userDao->isValidUser($username, $password)){
-            return true;
+        $id = $userDao->isValidUser($username, $password);
+        if($id != null){
+            return $id;
         }
-        return false;
+        return null;
     }
     
     public function registerUser($username, $password, $password2, $cityId, $email){

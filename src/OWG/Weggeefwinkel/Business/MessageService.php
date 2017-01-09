@@ -30,4 +30,10 @@ class MessageService {
         $message = new Message($title, $text, $senderId, $receiverId, $date, $parentId);
         $messageDao->create($message);
     }
+    
+    public function getUserMessages($userid){
+        $messageDao = new MessageDAO();
+        $messageList = $messageDao->getByUserId($userid);
+        return $messageList;
+    }
 }

@@ -12,16 +12,22 @@ if (!isset($_SESSION["username"])) {
     header("location: login.php");
     exit(0);
 } else {
+     $username = $_SESSION["username"];
+     $userid = $_SESSION["id"];
+     //print $userid;
+     $messageSvc = new MessageService();
 
     if (isset($_POST['send'])) {
         print ("jaja");
         
-        $messageSvc = new MessageService();
+        
         $messageSvc->writeMessage($_POST['title'], $_POST['text'], $_SESSION['username'], null);
     }
+    
+    $messageList = $messageSvc->getUserMessages($userid);
 
 
-    //$view = $twig->render("items.twig", array("itemList" => $itemList, "username" =>$_SESSION["username"], "user" => $user));
-    //print($view);
+    $view = $twig->render("messages.twig", array("username" => $username, "messageList" => $messageList));
+    print($view);
 }
 

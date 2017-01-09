@@ -9,7 +9,7 @@ use OWG\Weggeefwinkel\Exceptions\UsernameExistsException;
 use PDO;
 class UserDAO {
      public function isValidUser($username, $password) {
-        $sql = "select username from users where username = :username and password = :password";
+        $sql = "select id from users where username = :username and password = :password";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':username' => $username, ':password' => $password));
@@ -17,9 +17,9 @@ class UserDAO {
         $dbh = null;
         if($rij){
             
-            return true;
+            return $rij["id"];
         }
-        return false;
+        return null;
         
     }
     
@@ -33,7 +33,7 @@ class UserDAO {
         $city =$cityDAO->getById($rij["city_id"]);
         $user = User::create($rij["id"], $rij["username"], $city, $rij["email"], $rij["password"]);
         $dbh = null;
-        return $city;
+        return $user;
     }
     
     public function create($user){

@@ -15,6 +15,7 @@
 namespace OWG\Weggeefwinkel\Entities;
 
 class Message {
+
     //put your code here
     private $id;
     private $title;
@@ -23,18 +24,24 @@ class Message {
     private $receiver;
     private $date;
     private $parentId;
+    private $isReply;
     private $isRead;
-    
-    function __construct($title, $text, $sender, $receiver, $date, $parentId) {
+    private $deleted;
+
+    function __construct($id, $title, $text, $sender, $receiver, $date, $parentId, $isReply, $isRead, $deleted) {
+        $this->id = $id;
         $this->title = $title;
         $this->text = $text;
         $this->sender = $sender;
         $this->receiver = $receiver;
         $this->date = $date;
         $this->parentId = $parentId;
-        $this->isRead = false;
+        $this->isRead = $isRead;
+        $this->isReply = $isReply;
+        $this->isRead = $isRead;
+        $this->deleted = $deleted;
     }
-    
+
     function getId() {
         return $this->id;
     }
@@ -66,7 +73,5 @@ class Message {
     function getIsRead() {
         return $this->isRead;
     }
-
-
 
 }

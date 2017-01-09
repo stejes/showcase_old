@@ -12,7 +12,7 @@
            <select name="postcode">
                 <option selected disabled>Postcode...</option>
                 {% for city in cityList %}              
-                    <option value="{{ city.id }}">{{ city.name }}, {{ city.postcode }}</option>
+                    <option value="{{ city.postcode }}">{{ city.name }}, {{ city.postcode }}</option>
                 {% endfor %}
             </select>
             <select name="section">
@@ -40,7 +40,7 @@
                     <div class="itemdescription">{{ item.description }} </div>
 
                     <div class="itemfooter">
-                        <span class="itemlocation">{{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
+                        <span class="itemlocation">{{ item.user.username }} - {{ item.user.city.postcode }} - {{ item.user.city.name }}</span>
                         <h4 id="item-sectionName">{{item.section.name}}</h4>
                     </div>
                 </div>
