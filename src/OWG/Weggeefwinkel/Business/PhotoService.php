@@ -17,21 +17,40 @@ class PhotoService {
 
     private static $target_dir = "src/OWG/Weggeefwinkel/Presentation/Img/";
 
+    function make_thumb($src, $dest, $desired_width) {
+        
+        /* read the source image */
+        $source_image = imagecreatefromjpeg($src);
+        $width = imagesx($source_image);
+        $height = imagesy($source_image);
+        print $src;
+        /* find the "desired height" of this thumbnail, relative to the desired width  */
+        $desired_height = floor($height * ($desired_width / $width));
+
+        /* create a new, "virtual" image */
+        $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
+
+        /* copy source image at a resized size */
+        imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
+
+        /* create the physical thumbnail image to its destination */
+        imagejpeg($virtual_image, $dest);
+    }
+
     public function handlePhoto($photo) {
         $fileName = $_SESSION["username"] . "_" . basename($photo["name"]);
-       // $usernameDir = $_SESSION["username"] . "/";
-        
-              // Check if file already exists
+        // $usernameDir = $_SESSION["username"] . "/";
+        // Check if file already exists
         $uploadOk = 1;
         if (file_exists(self::$target_dir . $fileName)) {
-            /*$random = mt_rand(0, 100000);
-            $fileName =  $random . $fileName;*/
+            /* $random = mt_rand(0, 100000);
+              $fileName =  $random . $fileName; */
             echo "Sorry, file already exists.";
             $uploadOk = 0;
         }
         $target_file = self::$target_dir . $fileName;
         //print $target_file . " ";
-        
+
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
         //print $imageFileType . " ";
         $check = getimagesize($photo["tmp_name"]);
@@ -41,24 +60,26 @@ class PhotoService {
         } else {
             //
         }
-      
-            // Check file size
+
+        // Check file size
         if ($_FILES["img"]["size"] > 2000000) {
             echo "Sorry, your file is too large.";
             $uploadOk = 0;
         }
-            // Allow certain file formats
+        // Allow certain file formats
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
             echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
             $uploadOk = 0;
         }
-        
-            // Check if $uploadOk is set to 0 by an error
+
+        // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
             echo "Sorry, your file was not uploaded.";
             // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
+                $thumb_target_file = self::$target_dir . 'thumb_' . $fileName;
+                $this->make_thumb($target_file, $thumb_target_file, 100);
                 echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
                 return $fileName;
             } else {

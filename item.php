@@ -33,7 +33,7 @@ if (isset($_GET["action"])) {
             $photoName = $photoSvc->handlePhoto($_FILES["img"]);
             $user = $userSvc->getByUsername($_SESSION["username"]);
             $itemSvc->addItem($_POST["title"], $_POST["description"], $photoName, $_POST["section"], $user->getId());
-            header("location: account.php");
+            header("location: items.php");
             exit(0);
         } else {
             $view = $twig->render("addItem.twig", array("sectionList" => $sectionList, "username" => $_SESSION["username"]));
