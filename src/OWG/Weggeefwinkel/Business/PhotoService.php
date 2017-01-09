@@ -22,6 +22,7 @@ class PhotoService {
        // $usernameDir = $_SESSION["username"] . "/";
         
               // Check if file already exists
+        $uploadOk = 1;
         if (file_exists(self::$target_dir . $fileName)) {
             /*$random = mt_rand(0, 100000);
             $fileName =  $random . $fileName;*/
@@ -30,7 +31,7 @@ class PhotoService {
         }
         $target_file = self::$target_dir . $fileName;
         //print $target_file . " ";
-        $uploadOk = 1;
+        
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
         //print $imageFileType . " ";
         $check = getimagesize($photo["tmp_name"]);
@@ -62,7 +63,8 @@ class PhotoService {
                 return $fileName;
             } else {
                 echo "Sorry, there was an error uploading your file.";
-                return $target_file;
+                //return $target_file;
+                return "ja";
             }
         }
     }

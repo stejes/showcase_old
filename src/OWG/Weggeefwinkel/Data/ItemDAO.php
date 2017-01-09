@@ -22,7 +22,7 @@ use PDO;
 class ItemDAO {
 
     public function getLast() {
-        $sql = "select items.id, items.title, description, user_id, users.username, password, email,  img, postcode, section_id, sections.name as sectionname, date, city_id, cities.name as cityname from items, users, cities, sections where items.section_id = sections.id and user_id = users.id and city_id = cities.id and items.date in(select max(date) from items group by section_id)";
+        $sql = "select items.id, items.title, description, user_id, users.username, password, email, img, postcode, section_id, sections.name as sectionname, date, city_id, cities.name as cityname from items, users, cities, sections where items.section_id = sections.id and user_id = users.id and city_id = cities.id and items.date in(select max(date) from items group by section_id)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         /* print $section;
@@ -32,7 +32,7 @@ class ItemDAO {
         foreach ($resultSet as $rij) {
             $section = Section::create($rij["section_id"], $rij["sectionname"]);
             $city = City::create($rij["city_id"], $rij["postcode"], $rij["cityname"]);
-            $user = User::create($rij["user_id"], $rij["username"], $city,$rij["email"], $rij["password"]);
+            $user = User::create($rij["user_id"], $rij["username"], $city, $rij["email"], $rij["password"]);
             $item = Item::create($rij["id"], $rij["title"], $rij["description"], $rij["img"], $rij["date"], $user, $section);
             array_push($lijst, $item);
             //print_r($item);
@@ -76,27 +76,39 @@ class ItemDAO {
     }
 
     public function getByConditions($keywordArray, $postcode, $section) {
+        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
+
         $sql = "select items.id as id, title, section_id, sections.name as sectionname, city_id, cities.postcode, cities.name as cityname, img, description, date, user_id, username, email, password from items, users, cities, sections where user_id = users.id and section_id = sections.id and city_id = cities.id";
         foreach ($keywordArray as $keyword) {
-            $sql .= " and (description LIKE '%" . mysql_real_escape_string(trim($keyword)) . "%' or title LIKE '%" .  mysql_real_escape_string(trim($keyword))."%')";
+            $sql .= " and (description LIKE ? or title LIKE ?)";
         }
         if ($postcode != "") {
-            $sql .= " and postcode = :postcode";
-        }
-        else{
-            $sql .= " and :postcode = :postcode";
+            $sql .= " and postcode = ?";
+        } else {
+            $sql .= " and ? is not null";
         }
         if ($section != 0) {
-            $sql .= " and section_id = :section";
-        }
-        else{
-            $sql .= " and :section  = :section";
+            $sql .= " and section_id = ?";
+        } else {
+            $sql .= " and ? is not null";
         }
         //print_r($postcode);
-        
-        $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
-        $stmt->execute(array(':postcode' => $postcode, ':section' => $section));
+        $j = 1;
+        for ($i = 0; $i < sizeof($keywordArray); $i++) {
+            //print("ja");
+            $stmt->bindValue($j, '%' . $keywordArray[$i] . '%');
+            $j++;
+            $stmt->bindValue($j, '%' . $keywordArray[$i] . '%');
+            $j++;
+        }
+        $stmt->bindValue($j, $postcode);
+        $j++;
+        $stmt->bindValue($j, $section);
+        //print_r($stmt);
+
+
+        $stmt->execute();
         //print "sql: " . $sql;
         $lijst = array();
         while ($rij = $stmt->fetch(PDO::FETCH_ASSOC)) {
