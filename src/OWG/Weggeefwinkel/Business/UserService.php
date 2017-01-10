@@ -4,25 +4,30 @@
 namespace OWG\Weggeefwinkel\Business;
 use OWG\Weggeefwinkel\Data\UserDAO;
 use OWG\Weggeefwinkel\Data\CityDAO;
+use OWG\Weggeefwinkel\Entities\User;
 class UserService {
 
     public function checkLogin($username, $password) {
         $userDao = new UserDAO();
         //print "user" . $user;
-        $id = $userDao->isValidUser($username, $password);
-        if($id != null){
-            return $id;
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $user = $userDao->getByUsername($username);
+       
+        if(password_verify($password, $user->getPassword())){
+            return $user;
         }
-        return null;
+        else { return null; };
     }
     
-    public function registerUser($username, $password, $password2, $cityId, $email){
+    public function registerUser($username, $password, $password2, $cityId){
         if($password == $password2){
             $cityDao = new CityDAO();
             $city = $cityDao->getById($cityId);
-            $user = User::create($username, $city, $email, $password);
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $user = User::create(null, $username, $city, null, $hash);
             $userDao = new UserDAO();
-            $userDao->create($username, $password, $city, $email);
+            //$userDao->create($username, $password, $city, $email);
+            $userDao->create($user);
             return $user;
         }
         return false;
@@ -52,11 +57,13 @@ class UserService {
         $userDao = new UserDAO();
         $user = $userDao->getByUsername($_SESSION["username"]);
         //print_r($user);
-        if($oldPass == $user->getPassword()){
+        $oldHash = password_hash($oldPass, PASSWORD_DEFAULT);
+        if($oldHash == $user->getPassword()){
             
             
             if($pass == $pass2){
-                $user->setPassword($pass);
+                $hash = password_hash($pass, PASSWORD_DEFAULT);
+                $user->setPassword($hash);
                 //print_r($user);
                 $userDao->update($user);
             }

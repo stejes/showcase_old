@@ -15,6 +15,7 @@ class UserDAO {
         $stmt->execute(array(':username' => $username, ':password' => $password));
         $rij = $stmt->fetch(PDO::FETCH_ASSOC);
         $dbh = null;
+        print_r($rij);
         if($rij){
             
             return $rij["id"];
@@ -42,7 +43,7 @@ class UserDAO {
             throw new UsernameExistsException();
             
         }
-        $sql = "insert into users (username, password, city_id, email) values (:username, :password, :city, :email)";
+        $sql = "insert into users (username, password, city_id) values (:username, :password, :city)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':username' => $user->getUsername(), ':password' => $user->getPassword(), ":city"=>$user->getCity()->getId()));
