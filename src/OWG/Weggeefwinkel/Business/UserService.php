@@ -26,7 +26,6 @@ class UserService {
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $user = User::create(null, $username, $city, null, $hash);
             $userDao = new UserDAO();
-            //$userDao->create($username, $password, $city, $email);
             $userDao->create($user);
             return $user;
         }

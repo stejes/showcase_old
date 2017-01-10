@@ -38,7 +38,7 @@ class Message {
         $this->parentId = $parentId;
         $this->isRead = $isRead;
         $this->isReply = $isReply;
-        $this->isRead = $isRead;
+        
         $this->deleted = $deleted;
     }
 

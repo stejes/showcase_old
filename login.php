@@ -14,10 +14,9 @@ if (isset($_POST["login"])) {
         $userSvc = new UserService();
         $checkedUser = $userSvc->checkLogin($_POST["username"], $_POST["password"]);
         //print "in tweede if";
-        //print $id;
         if ($checkedUser != null) {
             $_SESSION["username"] = $_POST["username"];
-            //$_SESSION["id"] = $id;
+            $_SESSION["id"] = $checkedUser->getId();
             header("location: account.php");
             exit(0);
         }

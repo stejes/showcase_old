@@ -25,7 +25,7 @@ class MessageDAO {
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':parent_id'=>$message->getParentId(), ':title' => $message->getTitle(), ':text' => $message->getText(), ':timestamp' => $message->getDate()
-                , ':sender_id' => $message->getSender(), ':receiver_id' => $message->getReceiver()));
+                , ':sender_id' => $message->getSender()->getId(), ':receiver_id' => $message->getReceiver()->getId()));
         $messageId = $dbh->lastInsertId();
         $dbh=null;
         
@@ -33,13 +33,13 @@ class MessageDAO {
                 . "values (:messageId, :user_id, false, false)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
-        $stmt->execute(array(':messageId' => $messageId, ':user_id' => $message->getReceiver()));
+        $stmt->execute(array(':messageId' => $messageId, ':user_id' => $message->getReceiver()->getId()));
         $dbh=null;
         $sql = "insert into message_inbox(message_id, user_id, isSender, isRead)"
                 . "values (:messageId, :user_id, true, true)";
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
-        $stmt->execute(array(':messageId' => $messageId, ':user_id' => $message->getSender()));
+        $stmt->execute(array(':messageId' => $messageId, ':user_id' => $message->getSender()->getId()));
         $dbh=null;
         
     }

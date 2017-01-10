@@ -25,9 +25,10 @@ class MessageService {
         $userDao  = new UserDAO();
         $sender = $userDao->getByUsername($_SESSION["username"]);
         //print_r($sender);
-        $senderId = $sender->getId();
-        $receiverId = $receiver->getId();
-        $message = new Message($title, $text, $senderId, $receiverId, $date, $parentId);
+        //$receiver = $userDao->getById($receiverId);
+        //$senderId = $sender->getId();
+        //$receiverId = $receiver->getId();
+        $message = new Message(null, $title, $text, $sender, $receiver, $date, $parentId, 0, 0, 0);
         $messageDao->create($message);
     }
     
