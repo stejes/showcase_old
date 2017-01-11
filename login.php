@@ -6,6 +6,8 @@ require_once 'bootstrap.php';
 use OWG\Weggeefwinkel\Business\UserService;
 use OWG\Weggeefwinkel\Business\CityService;
 use OWG\Weggeefwinkel\Business\ItemService;
+use OWG\Weggeefwinkel\Exceptions\InvalidCityException;
+use OWG\Weggeefwinkel\Exceptions\UsernameExistsException;
 
 /*
  * login en registratiepagina
@@ -17,7 +19,7 @@ if (isset($_POST["login"])) {
     //check of het over een geldige login gaat, zet sessie of breek af
 
     if (isset($_POST["username"]) && isset($_POST["password"])) {
-
+        echo "hier zijn we";
         try {
             $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
             $userSvc = new UserService();
@@ -79,17 +81,15 @@ if (isset($_POST["login"])) {
                 header("location: items.php");
                 exit(0);
             } else {
-                header("location:login.php?regerror=unknown1");
+                header("location:login.php?error=unknown");
             }
         } catch (UsernameExistsException $ex) {
-            header("location: login.php?regerror=userexists");
+            header("location:login.php?error=userexists");
             exit(0);
         } catch (InvalidCityException $ex) {
-            header("location: login.php?regerror=invalidinput");
-        } /*catch (Exception $ex) {
-            header("location: login.php?regerror=unknown2");
+            header("location:login.php?error=invalidinput");
             exit(0);
-        }*/
+        } 
     }
 } elseif (isset($_GET["action"])) {
     //bij logout, destroy de session en redirect naar de index
@@ -109,12 +109,12 @@ if (isset($_POST["login"])) {
 if (!isset($_SESSION["username"])) {
     $citySvc = new CityService();
     $cityList = $citySvc->getAll();
-    //$regerror = "";
-    if (isset($_GET["regerror"])) {
-        //$regerror = $_GET["regerror"];
-        array_push($registererrors, $_GET["regerror"]);
+    $error = "";
+    if (isset($_GET["error"])) {
+        $error = $_GET["error"];
+        //array_push($registererrors, $_GET["error"]);
     }
-    $view = $twig->render("loginForm.twig", array("cityList" => $cityList, "regerrors" => $registererrors));
+    $view = $twig->render("loginForm.twig", array("cityList" => $cityList, "regerrors" => $registererrors, "error" => $error));
     print($view);
 } else {
     $itemSvc = new ItemService();

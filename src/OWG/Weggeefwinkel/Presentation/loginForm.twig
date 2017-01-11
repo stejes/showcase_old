@@ -9,7 +9,9 @@
 
 
 
-
+    {% if error == "loginfailed" %}
+        <p style="color: red">Onjuiste inloggegevens</p>
+    {% endif %}
     <div class="loginForm">
         <form action="login.php" method="post">
             <input type="text" name="username" placeholder="Gebruikersnaam">
@@ -30,7 +32,7 @@
     {% elseif error == "unknown" %}
         <p style="color: red">Onbekende fout</p>
     {% endif %}
-    
+
     {% for error in regerrors %}
         <p style="color: red">{{ error }}</p>
     {% endfor %}

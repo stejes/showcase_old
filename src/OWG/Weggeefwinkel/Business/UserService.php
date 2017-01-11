@@ -8,6 +8,7 @@ use OWG\Weggeefwinkel\Data\UserDAO;
 use OWG\Weggeefwinkel\Data\CityDAO;
 //use OWG\Weggeefwinkel\Entities\User;
 use OWG\Weggeefwinkel\Exceptions\UsernameExistsException;
+use OWG\Weggeefwinkel\Exceptions\InvalidCityException;
 
 class UserService {
 
