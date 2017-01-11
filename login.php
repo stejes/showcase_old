@@ -11,7 +11,7 @@ use OWG\Weggeefwinkel\Business\ItemService;
  * login en registratiepagina
  * 
  */
-
+$registererrors = array();
 
 if (isset($_POST["login"])) {
     //check of het over een geldige login gaat, zet sessie of breek af
@@ -38,25 +38,58 @@ if (isset($_POST["login"])) {
     }
 } elseif (isset($_POST["register"])) {
     //geeft ingevoerde input aan de service voor validatie, log onmiddellijk in als registratie gelukt is
+    //check op lege velden, city = int en paswoorden zijn gelijk, voeg errors toe aan errors-array
+    
 
-    if (isset($_POST["username"]) && isset($_POST["password"])) {
+    if (!(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["city"]))) {
+        //header("location:login.php?error=emptyfields");
+        $error = "Alle velden zijn verplicht.";
+        array_push($registererrors, $error);
+    }
+
+    if (strlen($_POST["username"]) < 3 || strlen($_POST["username"]) > 20) {
+        $error = "Gebruikersnaam moet tussen 3 en 20 karakters zijn.";
+        array_push($registererrors, $error);
+    }
+
+    if (!isset($_POST["city"]) || !ctype_digit($_POST["city"])) {
+        //header("location:login.php?error=invalidcity");
+        $error = "Ongeldige gemeente";
+        array_push($registererrors, $error);
+    }
+
+    if ($_POST["password"] != $_POST["password2"]) {
+        //header("location:")
+        $error = "Paswoorden zijn niet gelijk.";
+        array_push($registererrors, $error);
+    } else if(strlen($_POST["password"]) < 6 ){
+        $error = "Gelieve een paswoord van minstens 6 karakters op te geven";
+        array_push($registererrors, $error);
+    }
+
+    if (sizeof($registererrors) == 0) {
+        //indien geen errors, stuur naar de userservice
         try {
-            
             $userSvc = new UserService();
-            $isValid = $userSvc->registerUser($_POST["username"], $_POST["password"], $_POST["password2"], $_POST["city"]);
-            //print $isValid;
-            if ($isValid) {
+            $newId = $userSvc->registerUser($_POST["username"], $_POST["password"], $_POST["password2"], $_POST["city"]);
+
+            if ($newId) {
                 $_SESSION["username"] = $_POST["username"];
+                $_SESSION["id"] = $newId;
                 header("location: items.php");
                 exit(0);
+            } else {
+                header("location:login.php?regerror=unknown1");
             }
         } catch (UsernameExistsException $ex) {
-            header("location: login.php?error=userexists");
+            header("location: login.php?regerror=userexists");
             exit(0);
-        } catch(Exception $ex){
-            echo $ex->getMessage();
-            header("location: login.php");
-        }
+        } catch (InvalidCityException $ex) {
+            header("location: login.php?regerror=invalidinput");
+        } /*catch (Exception $ex) {
+            header("location: login.php?regerror=unknown2");
+            exit(0);
+        }*/
     }
 } elseif (isset($_GET["action"])) {
     //bij logout, destroy de session en redirect naar de index
@@ -76,11 +109,12 @@ if (isset($_POST["login"])) {
 if (!isset($_SESSION["username"])) {
     $citySvc = new CityService();
     $cityList = $citySvc->getAll();
-    $error = "";
-    if (isset($_GET["error"])) {
-        $error = $_GET["error"];
+    //$regerror = "";
+    if (isset($_GET["regerror"])) {
+        //$regerror = $_GET["regerror"];
+        array_push($registererrors, $_GET["regerror"]);
     }
-    $view = $twig->render("loginForm.twig", array("cityList" => $cityList, "error" => $error));
+    $view = $twig->render("loginForm.twig", array("cityList" => $cityList, "regerrors" => $registererrors));
     print($view);
 } else {
     $itemSvc = new ItemService();

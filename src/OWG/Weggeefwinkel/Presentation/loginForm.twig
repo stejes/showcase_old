@@ -25,10 +25,18 @@
 
     {% if error == "userexists" %}
         <p style="color: red">Gebruikersnaam bezet</p>
+    {% elseif error == "invalidinput" %}
+        <p style="color: red">Foutieve input</p>
+    {% elseif error == "unknown" %}
+        <p style="color: red">Onbekende fout</p>
     {% endif %}
+    
+    {% for error in regerrors %}
+        <p style="color: red">{{ error }}</p>
+    {% endfor %}
     <div class="registerForm">
         <form action="login.php" method="post">
-            <input type="text" name="username" placeholder="Gebruikersnaam">
+            <input type="text" name="username" placeholder="Gebruikersnaam" value="">
             <!--<input type="text" name="email" placeholder="email">-->
             <select name="city">
 

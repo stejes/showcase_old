@@ -45,7 +45,7 @@ class CityDAO {
         $city = City::create($rij["id"], $rij["postcode"], $rij["name"]);
         return $city;
         }else{
-            return false;
+            return null;
         }
     }
 
