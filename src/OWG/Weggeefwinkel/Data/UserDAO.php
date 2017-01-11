@@ -20,7 +20,7 @@ class UserDAO {
             
             return $rij["id"];
         }
-        return null;
+        return false;
         
     }
     

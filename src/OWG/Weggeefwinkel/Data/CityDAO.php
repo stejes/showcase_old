@@ -39,10 +39,14 @@ class CityDAO {
         $dbh = new PDO(DBConfig::$DB_CONNSTRING, DBConfig::$DB_USERNAME, DBConfig::$DB_PASSWORD);
         $stmt = $dbh->prepare($sql);
         $stmt->execute(array(':id' => $id));
-        $rij = $stmt->fetch(PDO::FETCH_ASSOC);
-        $city = City::create($rij["id"], $rij["postcode"], $rij["name"]);
+        $rij = $stmt->fetch(PDO::FETCH_ASSOC);        
         $dbh = null;
+        if($rij){
+        $city = City::create($rij["id"], $rij["postcode"], $rij["name"]);
         return $city;
+        }else{
+            return false;
+        }
     }
 
 }

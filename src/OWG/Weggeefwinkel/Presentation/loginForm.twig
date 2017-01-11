@@ -3,7 +3,9 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <h1>Login</h1>
+    <div class="titleContainer">
+        <h4 class="reverseTitle">Login</h4>
+    </div>
 
 
 
@@ -16,18 +18,18 @@
         </form>
     </div>
 
+    <div class="titleContainer">
+        <h4 class="reverseTitle">Registreer</h4>
+    </div>
 
-    <h1>Of registreer nu...</h1>
 
-
-
-{% if error == "userexists" %}
-            <p style="color: red">Gebruikersnaam bezet</p>
-        {% endif %}
+    {% if error == "userexists" %}
+        <p style="color: red">Gebruikersnaam bezet</p>
+    {% endif %}
     <div class="registerForm">
         <form action="login.php" method="post">
             <input type="text" name="username" placeholder="Gebruikersnaam">
-            <input type="text" name="email" placeholder="email">
+            <!--<input type="text" name="email" placeholder="email">-->
             <select name="city">
 
                 <option selected disabled>Woonplaats...</option>

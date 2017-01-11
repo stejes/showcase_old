@@ -5,21 +5,36 @@ namespace OWG\Weggeefwinkel\Business;
 use OWG\Weggeefwinkel\Data\UserDAO;
 use OWG\Weggeefwinkel\Data\CityDAO;
 use OWG\Weggeefwinkel\Entities\User;
+use Exception;
 class UserService {
 
     public function checkLogin($username, $password) {
+        if($username == "" || $password == ""){
+            return false;
+        }
         $userDao = new UserDAO();
-        //print "user" . $user;
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $user = $userDao->getByUsername($username);
        
-        if(password_verify($password, $user->getPassword())){
+        if($user != null && password_verify($password, $user->getPassword())){
             return $user;
         }
-        else { return null; };
+        else { return false; }
     }
     
     public function registerUser($username, $password, $password2, $cityId){
+        if($username == "" || $password == "" || $cityId == ""){
+            throw new EmptyFieldsException();
+        }
+        if(!ctype_digit($cityId)){
+            throw new Exception('not int');
+        }else{
+            $cityDao = new CityDAO();
+            $city = $cityDao->getById($cityId);
+            if(!city){
+                throw new Exception('geen city');
+            }
+        }
         if($password == $password2){
             $cityDao = new CityDAO();
             $city = $cityDao->getById($cityId);

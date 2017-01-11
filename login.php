@@ -7,30 +7,45 @@ use OWG\Weggeefwinkel\Business\UserService;
 use OWG\Weggeefwinkel\Business\CityService;
 use OWG\Weggeefwinkel\Business\ItemService;
 
+/*
+ * login en registratiepagina
+ * 
+ */
+
 
 if (isset($_POST["login"])) {
-    //print "in eerste if";
+    //check of het over een geldige login gaat, zet sessie of breek af
+
     if (isset($_POST["username"]) && isset($_POST["password"])) {
-        $userSvc = new UserService();
-        $checkedUser = $userSvc->checkLogin($_POST["username"], $_POST["password"]);
-        //print "in tweede if";
-        if ($checkedUser != null) {
-            $_SESSION["username"] = $_POST["username"];
-            $_SESSION["id"] = $checkedUser->getId();
-            header("location: account.php");
+
+        try {
+            $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
+            $userSvc = new UserService();
+            $validUser = $userSvc->checkLogin($username, $_POST["password"]);
+        } catch (LoginFailedException $ex) {
+            header("location:login.php?error=loginfailed");
+            exit(0);
+        }
+        if (!$validUser) {
+            header("location:login.php?error=loginfailed");
+            exit(0);
+        } else {
+            $_SESSION["username"] = $username;
+            $_SESSION["id"] = $validUser->getId();
+            header("location: items.php");
             exit(0);
         }
     }
 } elseif (isset($_POST["register"])) {
-    //print "in eerste if";
+    //geeft ingevoerde input aan de service voor validatie, log onmiddellijk in als registratie gelukt is
+
     if (isset($_POST["username"]) && isset($_POST["password"])) {
         try {
+            
             $userSvc = new UserService();
             $isValid = $userSvc->registerUser($_POST["username"], $_POST["password"], $_POST["password2"], $_POST["city"]);
-            //print "in tweede if";
             //print $isValid;
             if ($isValid) {
-
                 $_SESSION["username"] = $_POST["username"];
                 header("location: items.php");
                 exit(0);
@@ -38,11 +53,16 @@ if (isset($_POST["login"])) {
         } catch (UsernameExistsException $ex) {
             header("location: login.php?error=userexists");
             exit(0);
+        } catch(Exception $ex){
+            echo $ex->getMessage();
+            header("location: login.php");
         }
     }
 } elseif (isset($_GET["action"])) {
+    //bij logout, destroy de session en redirect naar de index
+
     if ($_GET["action"] == "logout") {
-        unset($_SESSION["username"]);
+        session_destroy();
         header("location: index.php");
         exit(0);
     }
